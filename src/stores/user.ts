@@ -21,7 +21,7 @@ export const useUsers = defineStore(id, {
   },
   getters: {
     getToken: (state) => {
-      return state.stateUser.token;
+      return state.stateUser.token || state.stateUser.auth?.token;
     },
   },
   actions: {
