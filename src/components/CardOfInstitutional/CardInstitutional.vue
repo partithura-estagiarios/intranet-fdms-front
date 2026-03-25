@@ -2,19 +2,16 @@
   <q-card class="my-card">
     <q-card-section horizontal>
       <q-card-section>
-        <div
-          class="row items-center justify-between q-mb-sm"
-          v-if="userStorage.getToken"
-        >
-          <span class="text-caption text-grey">Pastas</span>
+        <div class="row items-center justify-between q-mb-sm" v-if="isLogged">
+          <span class="text-caption text-grey">{{ $t("tab.folders") }}</span>
           <q-btn flat round icon="settings" color="grey" size="sm">
             <q-menu>
-              <q-list style="min-width: 150px" class="text-black bg-white">
-                <q-item clickable v-close-popup @click="cardAddFolder = true">
-                  <q-item-section>Criar pasta</q-item-section>
+              <q-list class="text-black bg-white menu-list">
+                <q-item clickable v-close-popup @click="openAddFolderDialog">
+                  <q-item-section>{{ $t("action.addFolder") }}</q-item-section>
                 </q-item>
                 <q-item clickable v-close-popup @click="triggerUpload">
-                  <q-item-section>Adicionar imagem</q-item-section>
+                  <q-item-section>{{ $t("action.addImage") }}</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
@@ -26,7 +23,7 @@
         />
       </q-card-section>
       <q-card-section class="col-19 flex flex-center">
-        <ImgsInstitutional :folders="allFolders" :name="titleImg || ''" />
+        <ImgsInstitutional :folders="allFolders" :name="computedTitleImg" />
       </q-card-section>
     </q-card-section>
   </q-card>
@@ -36,9 +33,9 @@
   />
   <input
     ref="uploadInput"
-    type="file"
-    accept="image/*"
-    style="display: none"
+    :type="inputType"
+    :accept="acceptedFiles"
+    class="hidden-input"
     @change="uploadImg"
   />
 </template>
@@ -59,6 +56,14 @@ const titleImg = ref();
 const cardAddFolder = ref(false);
 const menuOpen = ref(false);
 const uploadInput = ref<HTMLInputElement | null>(null);
+const inputType = ref("file");
+const acceptedFiles = ref("image/*");
+const computedTitleImg = computed(() => titleImg.value);
+const isLogged = computed(() => userStorage.getToken);
+
+function openAddFolderDialog() {
+  cardAddFolder.value = true;
+}
 
 async function loadAllDocsInt() {
   const { getAllImgs }: { getAllImgs: FoldersIntitutional[] } =
@@ -66,7 +71,7 @@ async function loadAllDocsInt() {
   allFolders.value = createPath(getAllImgs);
   namesOfImgs.value = getAllImgs.map((folder) => folder.name);
   imgsStorage.setFoldersImgs(namesOfImgs.value);
-  titleImg.value = namesOfImgs.value[0];
+  titleImg.value = namesOfImgs.value[0] || "";
 }
 
 function triggerUpload() {
@@ -80,9 +85,9 @@ async function uploadImg(event: Event) {
   if (result) {
     positiveNotify("Imagem adicionada com sucesso!");
     loadAllDocsInt();
-  } else {
-    negativeNotify("Erro ao adicionar imagem.");
+    return;
   }
+  negativeNotify("Erro ao adicionar imagem.");
 }
 
 watchEffect(() => {
@@ -99,5 +104,11 @@ onMounted(async () => {
 <style scoped>
 .my-card {
   height: 40rem;
+}
+.hidden-input {
+  display: none;
+}
+.menu-list {
+  min-width: 150px;
 }
 </style>

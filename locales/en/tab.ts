@@ -7,4 +7,5 @@ export default {
   hRdiscloses: "HR discloses",
   menu: "Menu",
   addCertifications: "Add Certification",
+  folders: "Folders",
 };

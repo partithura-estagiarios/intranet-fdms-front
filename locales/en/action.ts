@@ -68,4 +68,5 @@ export default {
   systemModuleInstitutional: "Institutional Module Options",
   systemModuleProccesses: "Process Module Options",
   systemModuleCertifications: "Certifications Module Options",
+  addImage: "Add image",
 };

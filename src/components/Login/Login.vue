@@ -52,7 +52,6 @@ const handleDataLogin = (form: User) => {
 
 const submitLoginForm = async () => {
   const auth = await userStorage.getUser(loginForm);
-  console.log("erro", auth);
   if (auth) {
     userStorage.stateUser = auth;
     router.push("/home");

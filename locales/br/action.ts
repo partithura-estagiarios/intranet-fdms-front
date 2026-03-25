@@ -67,4 +67,5 @@ export default {
   roomAccepted: "Sala criada com sucesso",
   enterNameRoom: "Dê nome a sala ",
   deleteCertification: "Deletar Certificação",
+  addImage: "Adicionar imagem",
 };
