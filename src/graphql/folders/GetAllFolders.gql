@@ -1,12 +1,25 @@
-query GetAllFolders {
+query TestGetAllFolders {
   getAllFolders {
-    name
-    subFolders {
-      name
-      subFolders {
-        name
-        subFolders
+    ...ItemFields
+    children {
+      ...ItemFields
+      children {
+        ...ItemFields
+        children {
+          ...ItemFields
+          children {
+            ...ItemFields
+          }
+        }
       }
     }
   }
+}
+
+fragment ItemFields on FileSystemItem {
+  name
+  identifier
+  description
+  path
+  type
 }
