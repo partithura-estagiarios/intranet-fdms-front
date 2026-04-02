@@ -72,9 +72,9 @@ export const useFiles = defineStore(id, {
           0,
           this.currentPath.lastIndexOf("/"),
         );
-      } else {
-        this.currentPath = "";
+        return;
       }
+      this.currentPath = "";
     },
 
     resetSelectedFields() {
