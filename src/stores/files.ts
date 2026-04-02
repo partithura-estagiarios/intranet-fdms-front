@@ -1,219 +1,207 @@
 import { defineStore } from "pinia";
-import { GrandParentFolder, ChildFolder } from "../entities/files";
+import { FileSystemItem } from "../entities/files";
 import CreateFolder from "../graphql/folders/CreateFolder.gql";
-import DeleteFolder from "../graphql/folders/DeleteFolder.gql";
+import DeleteItem from "../graphql/folders/DeleteItem.gql";
+import RenameFolder from "../graphql/folders/RenameFolder.gql";
 const server_express_url = getEnvironmentVariable(
   "VITE_URL_BACK_SERVER_EXPRESS_FOR_ARCHIVES",
 );
-function isNewFileName(newName: string) {
-  if (newName) {
-    return newName + ".pdf";
-  }
-}
-
 interface Message {
   enum: boolean;
   message: string;
 }
 interface State {
-  folders: GrandParentFolder[];
-  nameOfGrandParent: String;
-  nameOfParent: String;
-  nameOfChild: String;
-  files: ChildFolder[];
-  optionsGrandParent: String[];
-  optionsParent: ChildFolder[];
-  optionsChild: ChildFolder[];
+  folders: FileSystemItem[];
+  currentPath: string;
   getFoldersAgain: boolean;
 }
 const id = "files";
+
 export const useFiles = defineStore(id, {
   state: (): State => ({
     folders: [],
-    nameOfGrandParent: "",
-    nameOfParent: "",
-    nameOfChild: "",
-    files: [],
-    optionsGrandParent: [],
-    optionsParent: [],
-    optionsChild: [],
+    currentPath: "",
     getFoldersAgain: false,
   }),
   getters: {
     foldersAgain: (state) => {
       return state.getFoldersAgain;
     },
-    getFoldersGrandParent: (state) => {
-      return state.folders;
-    },
-    getFoldersParent: (state) => {
-      const auxFolder = state.optionsParent.find(
-        (folder) => folder.name === state.nameOfGrandParent,
-      );
-      if (auxFolder) {
-        return auxFolder.subFolders;
+    currentDirectoryContents: (state): FileSystemItem[] => {
+      if (!state.currentPath) {
+        return state.folders;
       }
-    },
-    getFoldersChild: (state) => {
-      const auxFolder = state.optionsChild.find(
-        (folder) =>
-          folder.name === state.nameOfParent &&
-          folder.folderGPName === state.nameOfGrandParent,
-      );
-      if (auxFolder) {
-        return auxFolder.subFolders;
-      }
-    },
-    getFoldersFiles: (state) => {
-      const auxFolder = state.files.find(
-        (folder) =>
-          folder.name === state.nameOfChild &&
-          folder.folderGPName === state.nameOfGrandParent,
-      );
-      if (auxFolder) {
-        return auxFolder.subFolders;
-      }
+
+      const findNodeByPath = (
+        nodes: FileSystemItem[],
+        targetPath: string,
+      ): FileSystemItem | undefined => {
+        for (const node of nodes) {
+          if (node.path === targetPath) {
+            return node;
+          }
+          if (node.children && node.children.length > 0) {
+            const found = findNodeByPath(node.children, targetPath);
+            if (found) {
+              return found;
+            }
+          }
+        }
+        return undefined;
+      };
+
+      const currentFolder = findNodeByPath(state.folders, state.currentPath);
+
+      return currentFolder && currentFolder.children
+        ? currentFolder.children
+        : [];
     },
   },
   actions: {
-    displayPdf: async (filePath: string) => {
-      const response = await fetch(
-        `${server_express_url}/serve-pdf/${filePath}`,
-      );
-      if (response.ok) {
-        const pdfUrl = URL.createObjectURL(await response.blob());
-        return window.open(pdfUrl, "_blank");
+    setAllFolders(folders: FileSystemItem[]) {
+      this.folders = folders;
+    },
+
+    navigateTo(path: string) {
+      this.currentPath = path;
+    },
+
+    navigateUp() {
+      if (this.currentPath.includes("/")) {
+        this.currentPath = this.currentPath.substring(
+          0,
+          this.currentPath.lastIndexOf("/"),
+        );
+      } else {
+        this.currentPath = "";
       }
     },
-    setAllFolders: (folders: GrandParentFolder[]) => {
-      const store = useFiles();
-      store.folders = folders;
-      store.optionsGrandParent = loadAllFoldersGrandParent(store.folders);
-      store.optionsParent = loadAllFoldersParent(store.folders);
-      store.optionsChild = loadAllFoldersChild(store.folders);
-      store.files = loadAllFiles(store.folders);
-    },
-    setNameFolderGP: (folderName: String) => {
-      const store = useFiles();
-      store.nameOfGrandParent = folderName;
-      store.nameOfParent = "";
-      store.nameOfChild = "";
-    },
-    setNameFolderP: (folderName: String) => {
-      const store = useFiles();
-      store.nameOfParent = folderName;
-      store.nameOfChild = "";
-    },
-    setNameFolderC: (folderName: String) => {
-      const store = useFiles();
-      store.nameOfChild = folderName;
-    },
-    insertFolder: async (path: String, folderName: String) => {
-      const store = useFiles();
 
+    resetSelectedFields() {
+      this.currentPath = "";
+    },
+
+    displayPdf(filePath: string) {
+      const pdfUrl = `${server_express_url}/serve-pdf/${filePath}`;
+      window.open(pdfUrl, "_blank");
+    },
+
+    async insertFolder(path: string, folderName: string) {
       const { createFolder }: { createFolder: Message } = await runMutation(
         CreateFolder,
         { folder: folderName, path: path },
       );
       if (createFolder.enum) {
-        store.getFoldersAgain = createFolder.enum;
-        return createFolder.message;
+        this.getFoldersAgain = true;
       }
-      return createFolder.message;
+      return {
+        success: createFolder.enum,
+        message: createFolder.message,
+      };
     },
-    excludeFolder: async (path: String) => {
-      const store = useFiles();
-      const { deleteFolder }: { deleteFolder: Message } = await runMutation(
-        DeleteFolder,
+
+    async renameFolder(path: string, newName: string) {
+      const { renameFolder }: { renameFolder: Message } = await runMutation(
+        RenameFolder,
+        { path, newName },
+      );
+      if (renameFolder.enum) {
+        this.getFoldersAgain = true;
+      }
+      return {
+        success: renameFolder.enum,
+        message: renameFolder.message,
+      };
+    },
+
+    async excludeItem(path: string) {
+      const { deleteItem }: { deleteItem: Message } = await runMutation(
+        DeleteItem,
         { path: path },
       );
-      if (deleteFolder.enum) {
-        store.getFoldersAgain = true;
-        return deleteFolder.message;
+      if (deleteItem.enum) {
+        this.getFoldersAgain = true;
       }
-      return deleteFolder.message;
+      return {
+        success: deleteItem.enum,
+        message: deleteItem.message,
+      };
     },
-    insertFile: async (newName: string, path: string, file: File) => {
-      const store = useFiles();
+
+    async uploadFile(
+      identifier: string,
+      description: string,
+      path: string,
+      file: File,
+      oldFileName?: string,
+    ) {
       const formData = new FormData();
-      formData.append("file", file, isNewFileName(newName));
+
+      formData.append("search-path", path);
+      formData.append("identifier", identifier);
+      formData.append("description", description);
+      formData.append("file", file);
+      if (oldFileName) {
+        formData.append("old-file-name", oldFileName);
+      }
+
       const response = await fetch(`${server_express_url}/upload`, {
         method: "POST",
         body: formData,
-        headers: {
-          "search-path": path,
-        },
       });
+
       if (response.ok) {
         const data = await response.json();
-        store.getFoldersAgain = true;
-        return data.message;
+        this.getFoldersAgain = true;
+        return {
+          success: true,
+          message: data.message,
+        };
       }
+
       const errorData = await response.json();
-      return errorData.error;
+      return {
+        success: false,
+        message:
+          errorData.message ||
+          errorData.error ||
+          "Erro desconhecido ao salvar arquivo",
+      };
     },
-    resetSelectedFiedls: () => {
-      const store = useFiles();
-      store.nameOfGrandParent = "";
+
+    async editFile(path: string, identifier: string, description: string) {
+      const response = await fetch(
+        `${server_express_url}/update-pdf-metadata`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            "search-path": path,
+            identifier,
+            description,
+          }),
+        },
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        this.getFoldersAgain = true;
+        return {
+          success: true,
+          message: data.message,
+        };
+      }
+
+      const errorData = await response.json();
+      return {
+        success: false,
+        message:
+          errorData.message ||
+          errorData.error ||
+          "Erro desconhecido ao editar arquivo",
+      };
     },
   },
 });
-
-function loadAllFoldersGrandParent(folders: GrandParentFolder[]) {
-  const auxFolders = [];
-  for (const folder of folders) {
-    auxFolders.push(folder.name);
-  }
-  return auxFolders;
-}
-function loadAllFoldersParent(folders: GrandParentFolder[]) {
-  const auxFolders: ChildFolder[] = [];
-
-  for (const folder of folders) {
-    const parentFolder = {
-      folderGPName: folder.name,
-      name: folder.name,
-      subFolders: folder.subFolders.map((subFolder) => subFolder.name),
-    };
-
-    auxFolders.push(parentFolder);
-  }
-  return auxFolders;
-}
-function loadAllFoldersChild(folders: GrandParentFolder[]) {
-  const auxFolders: ChildFolder[] = [];
-
-  for (const folder of folders) {
-    for (const subFolder of folder.subFolders) {
-      const childFolder = {
-        folderGPName: folder.name,
-        name: subFolder.name,
-        subFolders: subFolder.subFolders.map(
-          (subSubFolder) => subSubFolder.name,
-        ),
-      };
-
-      auxFolders.push(childFolder);
-    }
-  }
-  return auxFolders;
-}
-function loadAllFiles(folders: GrandParentFolder[]) {
-  const auxFolders = [];
-
-  for (const folder of folders) {
-    for (const subFolder of folder.subFolders) {
-      for (const folderChild of subFolder.subFolders) {
-        const childFolder = {
-          folderGPName: folder.name,
-          name: folderChild.name,
-          subFolders: folderChild.subFolders.map(
-            (subSubFolder) => subSubFolder,
-          ),
-        };
-        auxFolders.push(childFolder);
-      }
-    }
-  }
-  return auxFolders;
-}
