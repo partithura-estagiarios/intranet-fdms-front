@@ -1,0 +1,6 @@
+mutation RenameFolder($path: String!, $newName: String!) {
+  renameFolder(path: $path, newName: $newName) {
+    enum
+    message
+  }
+}
