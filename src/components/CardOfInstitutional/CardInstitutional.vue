@@ -137,8 +137,7 @@
           }}</span>
         </q-card-section>
         <q-card-section class="q-pt-none"
-          >{{ $t("action.deleteSureFolder") }}<strong>{{ titleImg }}</strong
-          >?
+          >{{ $t("action.deleteSureFolder", { pasta: titleImg }) }}
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
