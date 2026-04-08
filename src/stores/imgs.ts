@@ -1,10 +1,13 @@
 import { defineStore } from "pinia";
+
 export const server_express_url = getEnvironmentVariable(
   "VITE_URL_BACK_SERVER_EXPRESS_FOR_ARCHIVES",
 );
+
 import CreateFolderForInt from "../graphql/institutionalImgs/CreateFolderForInt.gql";
 import ExcludeFolderForInt from "../graphql/institutionalImgs/ExcludeFolderForInt.gql";
 import ExcludeFolderForCertification from "../graphql/certification/ExcludeFolderForCertification.gql";
+
 interface Message {
   enum: boolean;
   message: string;
@@ -17,8 +20,7 @@ interface State {
   reloadCertification: boolean;
 }
 
-const id = "imgs";
-export const useImgs = defineStore(id, {
+export const useImgs = defineStore("imgs", {
   state: (): State => ({
     folders: [],
     certifications: [],
@@ -34,22 +36,13 @@ export const useImgs = defineStore(id, {
     },
   },
   actions: {
-    setFoldersImgs: (folderName: string[]) => {
-      const imgsStorage = useImgs();
-      imgsStorage.folders = [];
-      folderName.forEach((val) => {
-        imgsStorage.folders.push(val);
-      });
+    setFoldersImgs(folderName: string[]) {
+      this.folders = [...folderName];
     },
-    setFoldersCertifications: (folderName: string[]) => {
-      const imgsStorage = useImgs();
-      imgsStorage.certifications = [];
-      folderName.forEach((val) => {
-        imgsStorage.certifications.push(val);
-      });
+    setFoldersCertifications(folderName: string[]) {
+      this.certifications = [...folderName];
     },
-    insertImg: async (path: string, file: any) => {
-      const imgsStorage = useImgs();
+    async insertImg(path: string, file: any) {
       const formData = new FormData();
       formData.append("file", file);
       const response = await fetch(`${server_express_url}/upload-img`, {
@@ -60,34 +53,55 @@ export const useImgs = defineStore(id, {
         },
       });
       if (response.ok) {
-        imgsStorage.refreshReload;
+        this.refreshReload;
         return true;
       }
       return false;
     },
-    insertFolder: async (folderName: string) => {
+    async insertFolder(folderName: string) {
       const { createFolderForInt }: { createFolderForInt: Message } =
         await runMutation(CreateFolderForInt, {
           folder: folderName,
         });
-
       return createFolderForInt;
     },
-    excludeFolder: async (path: String) => {
-      const imgsStorage = useImgs();
-      const { excludeFolderForInt }: { excludeFolderForInt: Message } =
-        await runMutation(ExcludeFolderForInt, { folder: path });
-      imgsStorage.refreshReload;
+    async excludeImgInstitutional(path: string) {
+      try {
+        const response = await runMutation(ExcludeFolderForInt, {
+          folder: path,
+        });
+        if (response) {
+          this.refreshReload;
+          return true;
+        }
+        return false;
+      } catch (error) {
+        return false;
+      }
     },
-    excludeCertification: async (path: String) => {
-      const imgsStorage = useImgs();
-      const {
-        excludeFolderForCertification,
-      }: { excludeFolderForCertification: Message } = await runMutation(
-        ExcludeFolderForCertification,
-        { folder: path },
-      );
-      imgsStorage.refreshCertificationsReload;
+    async deleteFolderInstitutional(folderName: string) {
+      try {
+        const response = await runMutation(ExcludeFolderForInt, {
+          folder: folderName,
+        });
+        if (response) {
+          this.refreshReload;
+          return true;
+        }
+        return false;
+      } catch (error) {
+        return false;
+      }
+    },
+    async excludeFolder(path: string) {
+      await runMutation(ExcludeFolderForInt, { folder: path });
+      this.refreshReload;
+    },
+    async excludeCertification(path: string) {
+      await runMutation(ExcludeFolderForCertification, {
+        folder: path,
+      });
+      this.refreshCertificationsReload;
     },
   },
 });

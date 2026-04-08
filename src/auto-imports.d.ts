@@ -46,6 +46,7 @@ declare global {
   const getEnvironmentVariable: typeof import('./helpers/environment')['getEnvironmentVariable']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
+  const imgs: typeof import('./stores/imgs')['default']
   const infoNotify: typeof import('./helpers/notify')['infoNotify']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
