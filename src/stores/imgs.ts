@@ -54,9 +54,8 @@ export const useImgs = defineStore("imgs", {
       });
       if (response.ok) {
         this.refreshReload;
-        return true;
       }
-      return false;
+      return !!response;
     },
     async insertFolder(folderName: string) {
       const { createFolderForInt }: { createFolderForInt: Message } =
@@ -72,9 +71,8 @@ export const useImgs = defineStore("imgs", {
         });
         if (response) {
           this.refreshReload;
-          return true;
         }
-        return false;
+        return !!response;
       } catch (error) {
         return false;
       }

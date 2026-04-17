@@ -129,21 +129,23 @@
     </div>
 
     <q-dialog v-model="showDeleteDialog" persistent>
-      <q-card style="min-width: 300px" class="bg-white text-black">
+      <q-card class="dialog-delete-card bg-white text-black">
         <q-card-section class="row items-center">
           <q-icon name="warning" color="negative" size="md" />
-          <span class="q-ml-sm text-weight-bold">{{
-            $t("action.deleteSureFile")
-          }}</span>
+          <span class="q-ml-sm text-weight-bold">
+            {{ $t("action.deleteSureFile") }}
+          </span>
         </q-card-section>
-        <q-card-section class="q-pt-none"
-          >{{ $t("action.deleteSureFolder", { pasta: titleImg }) }}
+
+        <q-card-section class="q-pt-none">
+          {{ $t("action.deleteSureFolder", { pasta: titleImg }) }}
         </q-card-section>
+
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
           <q-btn
             flat
-            label="Excluir"
+            :label="$t('action.deleteButton')"
             color="negative"
             @click="executeDeletion"
           />
@@ -152,7 +154,7 @@
     </q-dialog>
 
     <q-dialog v-model="showDeleteImgDialog" persistent>
-      <q-card style="min-width: 300px" class="bg-white text-black">
+      <q-card class="dialog-delete-card bg-white text-black">
         <q-card-section class="row items-center">
           <q-icon name="warning" color="negative" size="md" />
           <span class="q-ml-sm text-weight-bold">{{
@@ -166,7 +168,7 @@
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
           <q-btn
             flat
-            label="Excluir"
+            :label="$t('action.deleteButton')"
             color="negative"
             @click="executeImgDeletion"
           />
@@ -273,7 +275,9 @@ async function uploadImg(event: Event) {
     return;
   }
   const result = await imgsStorage.insertImg(titleImg.value, file);
-  if (result) await loadAllDocsInt();
+  if (result) {
+    await loadAllDocsInt();
+  }
 }
 
 onMounted(() => {
@@ -285,7 +289,7 @@ onMounted(() => {
   width: 90rem;
   max-width: 95vw;
   height: 55rem;
-  margin-top: -10rem;
+  margin-top: -7rem;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -397,5 +401,11 @@ onMounted(() => {
 }
 .hidden-input {
   display: none;
+}
+.dialog-delete-card {
+  min-width: 300px;
+}
+.dialog-delete-card {
+  min-width: 300px;
 }
 </style>

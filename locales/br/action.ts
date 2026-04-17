@@ -34,6 +34,7 @@ export default {
   logout: "Sair da conta",
   addFile: "Adicionar um arquivo",
   addFolder: "Adicionar uma Pasta",
+  deleteButton: "Excluir",
   deleteItem: "Deletar um arquivo ou pasta",
   deleteFile: "Deletar imagem",
   deleteFolder: "Deletar pasta",
