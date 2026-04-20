@@ -17,7 +17,7 @@ import { useImgs } from "../../../../stores/imgs";
 
 const { t } = useI18n();
 const imgsStorage = useImgs();
-const emits = defineEmits(["update-card-folder"]);
+const emits = defineEmits(["update-card-folder", "folder-created"]);
 const nameFolder = ref();
 function closeDialog() {
   emits("update-card-folder", false);
