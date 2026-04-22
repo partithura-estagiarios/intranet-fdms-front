@@ -28,10 +28,7 @@
             @click="selectItem(name)"
           >
             <q-item-section avatar class="icon-section">
-              <q-icon
-                :name="selectedTab === name ? 'folder_open' : 'folder'"
-                size="xs"
-              />
+              <q-icon :name="getFolderIcon(name)" size="xs" />
             </q-item-section>
 
             <q-item-section
@@ -111,7 +108,9 @@ function openDeleteDialog() {
 function selectItem(name: string) {
   selectedTab.value = name;
 }
-
+const getFolderIcon = (name: string) => {
+  return selectedTab.value === name ? "folder_open" : "folder";
+};
 async function loadCertifications() {
   const { loadCertifications }: { loadCertifications: string[] } =
     await runQuery(LoadCertifications);

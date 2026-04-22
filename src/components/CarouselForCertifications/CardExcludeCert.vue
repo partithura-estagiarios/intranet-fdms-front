@@ -51,7 +51,7 @@ async function excludeCert() {
   }
 }
 </script>
-<style>
+<style scoped>
 .force-light-menu {
   background-color: white !important;
 }
