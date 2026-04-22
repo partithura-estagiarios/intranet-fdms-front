@@ -35,6 +35,7 @@ export default {
   logout: "Logout",
   addFile: "Add a file",
   addFolder: "Add a folder",
+  deleteButton: "Delete",
   delete: "Delete a file or folder",
   deleteFile: "Delete image",
   deleteFolder: "Delete folder",
