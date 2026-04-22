@@ -136,9 +136,8 @@
             {{ $t("action.deleteSureFile") }}
           </span>
         </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          {{ $t("action.deleteSureFolder", { pasta: titleImg }) }}
+        <q-card-section class="q-pt-none"
+          >{{ $t("action.deleteSureFolder", { pasta: titleImg }) }}
         </q-card-section>
 
         <q-card-actions align="right">
@@ -313,10 +312,6 @@ onMounted(() => {
   background-color: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.sidebar-item .q-icon {
-  color: #fbc02d;
 }
 
 .folder-title {
