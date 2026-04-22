@@ -311,10 +311,6 @@ onMounted(() => {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.sidebar-item .q-icon {
-  color: #fbc02d;
-}
-
 .folder-title {
   font-weight: 900 !important;
   letter-spacing: 0.5px;

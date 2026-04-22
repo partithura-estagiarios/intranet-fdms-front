@@ -11,18 +11,11 @@
           v-model="select"
           :label="$t('text.file')"
           :options="imgsStorage.certifications"
-          class="text-black"
-          :rules="[(val) => !!val || $t('folders.selectFile')]"
-          ><template #option="{ opt }" class="size-select-custom">
-            <div class="size-select">
-              <q-item class="text-black" clickable>
-                <q-item-section v-close-popup>
-                  <q-item-label @click="select = opt">{{ opt }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </div>
-          </template></q-select
+          popup-content-class="force-light-menu"
+          outlined
+          color="primary"
         >
+        </q-select>
       </q-card-section>
       <CardButtonConfirm @confirm="excludeCert()" />
     </q-card>
@@ -30,27 +23,45 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { useImgs } from "../../stores/imgs";
 
 const imgsStorage = useImgs();
-const emits = defineEmits(["update-card"]);
+
+const emits = defineEmits(["update-card-folder"]);
+
 const props = defineProps({
   card: {
     type: Boolean,
     required: true,
   },
 });
-const select = ref();
+
+const select = ref<string | null>(null);
 
 function closeDialog() {
   select.value = null;
-  emits("update-card", false);
+  emits("update-card-folder", false);
 }
 
-function excludeCert() {
+async function excludeCert() {
   if (select.value) {
-    imgsStorage.excludeCertification(select.value);
+    await imgsStorage.excludeCertification(select.value);
     closeDialog();
   }
 }
 </script>
+<style>
+.force-light-menu {
+  background-color: white !important;
+}
+
+.force-light-menu .q-item__label {
+  color: #000000 !important;
+}
+
+.force-light-menu .q-item.q-manual-focusable--focused .q-item__label,
+.force-light-menu .q-item--active .q-item__label {
+  color: #000000 !important;
+}
+</style>
