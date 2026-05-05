@@ -1,0 +1,23 @@
+export default {
+  newItem: "New Item...",
+  addItem: "Add Item",
+  deleteItem: "Delete Item",
+  editItem: "Edit Item",
+  renameFolder: "Rename folder",
+  newAttachment: "New file (optional)",
+  deleteFileText: 'Do you want to delete the file "{name}"?',
+  deleteFolderText:
+    'Do you want to delete the folder "{name}"? All internal files will be deleted.',
+  newFolder: "new folder",
+  newFile: "new PDF",
+  folderName: "folder name",
+  identifier: "Identifier",
+  description: "Description",
+  attachment: "Attachment",
+  overwriteHint: "File with the same name will be overwritte.",
+  createOn: "Create inside:",
+  emptyFolderText: "No files to display",
+  emptyFolderSubText: "Select a tab or browse the folders to view the PDFs",
+  emptySubFolder: "No subfolders here",
+  requiredField: "Required field",
+};

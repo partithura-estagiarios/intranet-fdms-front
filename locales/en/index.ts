@@ -11,7 +11,7 @@ import userScheduleRoom from "./userScheduleRoom";
 import erroRamal from "./erroRamal";
 import sucessRamal from "./sucessRamal";
 import emailDirector from "./emailDirector";
-import folders from "./folders";
+import files from "./files";
 import label from "./label";
 import certification from "./certification";
 
@@ -55,5 +55,5 @@ export default {
   tab,
   errors,
   auth,
-  folders,
+  files,
 };

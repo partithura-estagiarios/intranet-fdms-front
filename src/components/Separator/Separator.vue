@@ -6,7 +6,6 @@
     <span v-if="userStorage.getToken" class="no-padding no-border">
       <ItemSystem v-if="router.fullPath === '/home'" />
       <IconOpts v-if="router.fullPath === '/institutional'" />
-      <ButtonOptsForProcess v-if="router.fullPath === '/processes'" />
       <IconOptsCert v-if="router.fullPath === '/certifications'" />
     </span>
   </h4>

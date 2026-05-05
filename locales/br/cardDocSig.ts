@@ -16,8 +16,7 @@ export default {
   manufacture: "Fabricar",
   evaluateConformitiesImprovements: "Avaliar conformidade e melhorias",
   emptyFolder: "Pasta vazia",
-  attachments: "Anexos",
+  attachments: "Anexo",
   writeFileName: "Escreva o nome do arquivo",
-  writeMarName: "Digite o número do MAR",
   addImg: "Adicionar Documento Institucional",
 };

@@ -1,32 +1,32 @@
 <template>
-  <div
-    class="row"
-    :class="$q.screen.lt.lg ? 'justify-between' : 'justify-center q-py-sm'"
-  >
-    <q-card class="card no-padding no-margin">
-      <q-card-section class="custom-color text-h6 row text-white">
-        <div class="col-12">
-          <Tab />
-        </div>
-      </q-card-section>
-      <CardProcess />
+  <div class="row flex-center">
+    <q-card class="my-card flex row">
+      <RootFolders />
+
+      <SubFolders />
+
+      <ShowArchives />
     </q-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { GrandParentFolder } from "../../entities/files";
+import { FileSystemItem } from "../../entities/files";
 import GetAllFolders from "../../graphql/folders/GetAllFolders.gql";
 import { useFiles } from "../../stores/files";
+
 const fileStorage = useFiles();
+
 onMounted(async () => {
-  const { getAllFolders }: { getAllFolders: GrandParentFolder[] } =
+  const { getAllFolders }: { getAllFolders: FileSystemItem[] } =
     await runQuery(GetAllFolders);
   fileStorage.setAllFolders(getAllFolders);
+  fileStorage.resetSelectedFields();
 });
+
 watchEffect(async () => {
   if (fileStorage.getFoldersAgain) {
-    const { getAllFolders }: { getAllFolders: GrandParentFolder[] } =
+    const { getAllFolders }: { getAllFolders: FileSystemItem[] } =
       await runQuery(GetAllFolders);
     fileStorage.setAllFolders(getAllFolders);
     fileStorage.getFoldersAgain = false;
@@ -35,11 +35,16 @@ watchEffect(async () => {
 </script>
 
 <style scoped>
-.card {
-  width: 90rem;
-  height: 45rem;
-}
-.custom-color {
+.sidebar {
   background-color: rgb(31, 73, 125);
+}
+
+.my-card {
+  width: 100%;
+  max-width: 1600px;
+  height: 75vh;
+  min-height: 600px;
+  min-width: 1024px;
+  overflow: hidden;
 }
 </style>

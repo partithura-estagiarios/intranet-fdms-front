@@ -1,19 +1,8 @@
-export interface ChildFolder {
-  folderGPName: String;
-  name: String;
-  subFolders: String[];
-}
-interface ParentFolder {
-  name: String;
-  subFolders: ChildFolder[];
-}
-
-export interface GrandParentFolder {
-  name: String;
-  subFolders: ParentFolder[];
-}
-
-export interface AuxFolder {
-  name: String;
-  subFolders: String[];
+export interface FileSystemItem {
+  name: string;
+  identifier?: string | undefined;
+  description?: string | undefined;
+  path: string;
+  type: string;
+  children: FileSystemItem[];
 }

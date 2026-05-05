@@ -1,0 +1,6 @@
+mutation DeleteItem($path: String!) {
+  deleteItem(path: $path) {
+    enum
+    message
+  }
+}

@@ -1,6 +1,0 @@
-mutation DeleteFolder($path: String!) {
-  deleteFolder(path: $path) {
-    enum
-    message
-  }
-}

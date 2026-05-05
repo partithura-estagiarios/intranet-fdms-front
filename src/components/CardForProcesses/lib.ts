@@ -21,3 +21,13 @@ export function getNameMar(filePath: string) {
     return match[2];
   }
 }
+
+export function formatFileName(name: string) {
+  const lastDotIndex = name.lastIndexOf(".");
+
+  if (lastDotIndex > 0) {
+    return name.substring(0, lastDotIndex);
+  }
+
+  return name;
+}
