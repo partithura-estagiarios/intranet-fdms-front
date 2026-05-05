@@ -15,7 +15,7 @@ export const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const userStorage = useUsers();
-  if (userStorage.stateUser.token && to.path === "/login") {
+  if (userStorage.stateUser.auth.token && to.path === "/login") {
     warningNotify("Você já está logado");
     return next("/home");
   }

@@ -6,11 +6,7 @@ import { Auth } from "../entities/login";
 const id = "users";
 
 const userStorage = {
-  id: "",
-  name: "",
-  password: "",
-  email: "",
-  token: "",
+  auth: { id: "", name: "", password: "", email: "", token: "" },
 };
 
 export const useUsers = defineStore(id, {
@@ -21,7 +17,7 @@ export const useUsers = defineStore(id, {
   },
   getters: {
     getToken: (state) => {
-      return state.stateUser.auth?.token;
+      return state.stateUser.auth.token;
     },
   },
   actions: {
@@ -31,18 +27,17 @@ export const useUsers = defineStore(id, {
         password: form.labelInputPassword!,
         email: form.labelEmail!,
       });
-
       return userData;
     },
     logout: () => {
       const user = useUsers();
-      user.stateUser = userStorage;
-      return router.push("/home");
+      user.stateUser = { ...userStorage };
+      return router.push("/login");
     },
     login: () => {
       const user = useUsers();
-      user.stateUser = userStorage;
-      return router.push("/login");
+      user.stateUser.auth = { ...userStorage.auth };
+      return router.push("/home");
     },
   },
   persist: true,
