@@ -10,4 +10,5 @@ export default {
   processes: "Processos",
   institutional: "Institucional",
   addCertifications: "Adicionar Certificação",
+  folders: "Pastas",
 };

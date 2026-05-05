@@ -1,11 +1,11 @@
 <template>
-  <Separator :texto="$t('tab.institutional')" class="z-top" />
-  <div class="absolute-center save-size">
+  <Separator :texto="$t('tab.institutional')" class="no-margin no-padding" />
+  <div
+    class="row"
+    :class="$q.screen.lt.lg ? 'justify-between' : 'justify-center q-py-sm'"
+  >
     <CardInstitutional />
   </div>
 </template>
-<style scoped>
-.save-size {
-  width: 60rem;
-}
-</style>
+
+<style scoped></style>
