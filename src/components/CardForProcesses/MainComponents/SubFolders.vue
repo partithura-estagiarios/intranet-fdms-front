@@ -1,12 +1,12 @@
 <template>
   <q-card-section
     v-if="hasRootFolderSelected"
-    class="col-3 column q-pa-none bg-grey-1 container"
+    class="bg-grey-1 col-3 column q-pa-none container"
   >
     <div class="q-pa-sm col scroll">
       <q-item
         v-if="canGoBack"
-        class="bg-grey-3 rounded-borders q-my-sm text-black"
+        class="bg-grey-3 q-my-sm rounded-borders text-black"
         clickable
         v-ripple
         @click="goBack"
@@ -29,12 +29,16 @@
         @delete="openModal('delete', $event)"
       />
 
-      <div v-if="showEmptyState" class="text-center text-grey q-mt-md">
+      <div v-if="showEmptyState" class="q-mt-md text-grey text-center">
         {{ $t("files.emptySubFolder") }}
       </div>
     </div>
 
-    <AddItemBtn variant="subfolder" @click="openModal('add')" />
+    <AddItemBtn
+      v-if="useUser.getToken"
+      variant="subfolder"
+      @click="openModal('add')"
+    />
   </q-card-section>
 
   <q-dialog :model-value="!!activeModal" @update:model-value="closeModal">
@@ -66,7 +70,9 @@
 <script setup lang="ts">
 import { useFiles } from "../../../stores/files";
 import { FileSystemItem } from "../../../entities/files";
+import { useUsers } from "../../../stores/user";
 
+const useUser = useUsers();
 const fileStorage = useFiles();
 
 const hasRootFolderSelected = computed(() => rootPath.value !== "");

@@ -66,7 +66,6 @@ const submitLoginForm = async () => {
 
   if (auth.auth) {
     userStorage.stateUser = auth;
-    console.log(userStorage.stateUser);
 
     router.push("/home");
     return positiveNotify(t("login.loginSuccessful"));

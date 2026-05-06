@@ -1,6 +1,6 @@
 <template>
-  <div class="row flex-center">
-    <q-card class="my-card flex row">
+  <div class="flex-center row">
+    <q-card class="flex my-card row">
       <RootFolders />
 
       <SubFolders />

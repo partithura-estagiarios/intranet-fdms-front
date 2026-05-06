@@ -2,43 +2,11 @@
   <q-btn
     v-if="router.currentRoute.value.path != '/login'"
     color="white"
-    :icon="userStorage.getToken ? 'logout' : 'login'"
+    :icon="getTokenValue"
     flat
     size="1.5rem"
     @click="handleLogOff(text)"
   />
-
-  <!-- <q-card class="my-card bordered-card" v-show="card">
-    <q-card-actions vertical align="center">
-      <q-item
-        class="q-px-sm position-btn"
-        clickable
-        @click="handleLogOff(text)"
-        v-close-popup
-      >
-        <q-icon
-          name="login"
-          size="1.6rem"
-          class="q-px-sm q-py-xs"
-          :color="userStorage.getToken ? 'red' : 'indigo-5'"
-        />
-        <div
-          class="q-py-xs text-no-wrap custom-font"
-          :class="userStorage.getToken ? 'text-red' : 'text-indigo'"
-        >
-          <q-item-section>{{
-            $t(`${userStorage.getToken ? "action.logout" : "action.login"}`)
-          }}</q-item-section>
-        </div>
-      </q-item>
-    </q-card-actions>
-  </q-card> -->
-  <!-- <div
-    class="border-custom-card"
-    :class="userStorage.getToken ? 'bg-red' : 'bg-indigo'"
-    v-show="card"
-  ></div>
-  <div class="second-border-custom-card" v-show="card"></div> -->
 </template>
 
 <script setup lang="ts">
@@ -56,6 +24,10 @@ function handleLogOff(val: String) {
 
   return userStorage.logout();
 }
+
+const getTokenValue = computed(() => {
+  return userStorage.getToken ? "logout" : "login";
+});
 </script>
 <style scoped>
 .my-card {
