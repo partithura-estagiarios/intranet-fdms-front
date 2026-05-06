@@ -13,7 +13,11 @@
       />
     </div>
 
-    <AddItemBtn variant="root" @click="openModal('add')" />
+    <AddItemBtn
+      v-if="useUser.getToken"
+      variant="root"
+      @click="openModal('add')"
+    />
   </q-card-section>
 
   <q-dialog :model-value="!!activeModal" @update:model-value="closeModal">
@@ -46,6 +50,9 @@
 <script setup lang="ts">
 import { useFiles } from "../../../stores/files";
 import { FileSystemItem } from "../../../entities/files";
+import { useUsers } from "../../../stores/user";
+
+const useUser = useUsers();
 
 const fileStorage = useFiles();
 

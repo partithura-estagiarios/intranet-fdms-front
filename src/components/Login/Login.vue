@@ -1,17 +1,17 @@
 <template>
-  <q-img src="/INTRANET_FUNDIMISA.png" class="absolute fixed-full" />
+  <q-img src="/INTRANET_FUNDIMISA.png" class="fixed-full absolute" />
 
-  <div class="column fixed-center">
+  <div class="fixed-center column">
     <div class="row">
-      <q-card class="my-card q-pa-xl shadow-1 justify-center bordered">
+      <q-card class="justify-center shadow-1 my-card q-pa-xl bordered">
         <q-card-section vertical class="q-gutter-md" align="center">
           <q-avatar rounded size="150px">
             <img src="ico/ICO_FUNDIMISA.png" />
           </q-avatar>
-          <p class="text-bold text-black text-h4">INTRANET FUNDIMISA</p>
+          <p class="text-black text-bold text-h4">INTRANET FUNDIMISA</p>
         </q-card-section>
         <q-card-section vertical class="q-gutter-md" align="center">
-          <h5 class="text-subtitle1 text-bold">
+          <h5 class="text-bold text-subtitle1">
             {{ $t("login.enterYourCredentials") }}
           </h5>
           <div class="q-gutter-md">
@@ -23,7 +23,7 @@
           <q-btn
             color="green-8"
             size="lg"
-            class="envy full-width relative-position"
+            class="relative-position envy full-width"
             :label="$t('login.submitButton')"
             nelevated
             rounded
@@ -37,8 +37,19 @@
 
 <script setup lang="ts">
 import { User } from "../../entities/login";
-import { router } from "../../modules";
 import { useUsers } from "../../stores/user";
+
+const router = useRouter();
+
+interface Auth {
+  auth: {
+    email: string;
+    password: string;
+    name: string;
+    token: string;
+    id: string;
+  };
+}
 
 const userStorage = useUsers();
 const { t } = useI18n();
@@ -51,9 +62,11 @@ const handleDataLogin = (form: User) => {
 };
 
 const submitLoginForm = async () => {
-  const auth = await userStorage.getUser(loginForm);
-  if (auth) {
+  const auth: Auth = await userStorage.getUser(loginForm);
+
+  if (auth.auth) {
     userStorage.stateUser = auth;
+
     router.push("/home");
     return positiveNotify(t("login.loginSuccessful"));
   }

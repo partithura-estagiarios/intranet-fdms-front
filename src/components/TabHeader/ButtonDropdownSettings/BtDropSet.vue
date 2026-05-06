@@ -1,68 +1,32 @@
 <template>
   <q-btn
+    v-if="router.currentRoute.value.path != '/login'"
     color="white"
-    icon="settings"
+    :icon="getTokenValue"
     flat
     size="1.5rem"
-    @click="card = !card"
+    @click="handleLogOff(text)"
   />
-  <q-card class="my-card bordered-card" v-show="card">
-    <q-card-actions vertical align="center">
-      <q-item
-        class="q-px-sm position-btn"
-        clickable
-        @click="handleLogOff(text)"
-        v-close-popup
-      >
-        <q-icon
-          name="power_settings_new"
-          size="1.6rem"
-          class="q-py-xs q-px-sm"
-          :color="iconColor"
-        />
-        <div class="custom-font q-py-xs text-no-wrap" :class="textColor">
-          <q-item-section>{{ $t(`${text}`) }}</q-item-section>
-        </div>
-      </q-item>
-    </q-card-actions>
-  </q-card>
-  <div class="border-custom-card" :class="borderColor" v-show="card"></div>
-  <div class="second-border-custom-card" v-show="card"></div>
 </template>
 
 <script setup lang="ts">
 import { useUsers } from "../../../stores/user";
+import { router } from "../../../modules";
 const userStorage = useUsers();
 const text = ref("");
 const card = ref(false);
-const textColor = ref("");
-const borderColor = ref("");
-const iconColor = ref("");
-
-function updateColors() {
-  if (userStorage.getToken) {
-    text.value = "action.logout";
-    borderColor.value = "bg-red";
-    textColor.value = "text-red";
-    card.value = !card;
-    return (iconColor.value = "red");
-  }
-  text.value = "action.login";
-  borderColor.value = "bg-indigo";
-  textColor.value = "text-indigo";
-  card.value = !card;
-  return (iconColor.value = "indigo-5");
-}
 
 function handleLogOff(val: String) {
+  card.value = !card.value;
   if (val.includes("login")) {
     return userStorage.login();
   }
+
   return userStorage.logout();
 }
 
-watchEffect(() => {
-  updateColors();
+const getTokenValue = computed(() => {
+  return userStorage.getToken ? "logout" : "login";
 });
 </script>
 <style scoped>
