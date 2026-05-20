@@ -1,6 +1,6 @@
 <template>
   <div
-    class="row"
+    class="row q-pb-xl"
     :class="$q.screen.lt.lg ? 'justify-between' : 'justify-center'"
   >
     <div v-for="item in systemStorage.getSistemas">
@@ -9,7 +9,16 @@
         @click="systemStorage.goToRoute(item.link)"
       >
         <q-item-section class="border-radius-inherit">
-          <q-avatar class="border-color row bg-white shadow-14" size="7.99rem">
+          <q-avatar
+            :class="[
+              'border-color',
+              'row',
+              'bg-white',
+              'shadow-14',
+              accentClass,
+            ]"
+            size="7.99rem"
+          >
             <q-badge
               color="red cursor-pointer"
               floating
@@ -20,7 +29,7 @@
             /></q-badge>
             <q-icon
               :name="item.icon"
-              class="custom-color icon-partithura q-py-md"
+              :class="[accentClass, 'icon-partithura', 'q-py-md']"
             />
           </q-avatar>
         </q-item-section>
@@ -28,7 +37,12 @@
           <q-item>
             <q-item-section>
               <q-item-label
-                class="custom-color text-h5 text-weight-bolder font-custom"
+                :class="[
+                  accentClass,
+                  'text-h5',
+                  'text-weight-bolder',
+                  'font-custom',
+                ]"
               >
                 {{ item.label }}
               </q-item-label>
@@ -37,7 +51,9 @@
                 :open="systemStorage.openModalCeo"
               />
 
-              <q-item-label class="text-green text-bold text-h5 font-custom">
+              <q-item-label
+                :class="[highlightClass, 'text-bold', 'text-h5', 'font-custom']"
+              >
                 {{ item.sublabel }}
               </q-item-label>
             </q-item-section>
@@ -59,6 +75,23 @@ const props = defineProps({
   },
 });
 
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const accentClass = computed(() =>
+  layout.value === "CIRON" ? "text-black" : "custom-color",
+);
+
+const highlightClass = computed(() =>
+  layout.value === "CIRON" ? "text-orange-14" : "text-green",
+);
+
 onMounted(async () => {
   systemStorage.loadSystems(props.sistema);
 });
@@ -66,7 +99,7 @@ onMounted(async () => {
 
 <style scoped>
 .border-color {
-  border: 8px solid rgb(31, 73, 125);
+  border: 8px solid currentColor;
 }
 .custom-color {
   color: rgb(31, 73, 125);

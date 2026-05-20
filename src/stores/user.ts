@@ -29,15 +29,19 @@ export const useUsers = defineStore(id, {
       });
       return userData;
     },
-    logout: () => {
-      const user = useUsers();
-      user.stateUser = { ...userStorage };
-      return router.push("/login");
+    logout() {
+      this.$reset();
+
+      try {
+        localStorage.removeItem(this.$id);
+      } catch {
+        // ignore (e.g., SSR or restricted storage)
+      }
+
+      return router.replace("/login");
     },
-    login: () => {
-      const user = useUsers();
-      user.stateUser.auth = { ...userStorage.auth };
-      return router.push("/home");
+    login() {
+      return router.replace("/home");
     },
   },
   persist: true,

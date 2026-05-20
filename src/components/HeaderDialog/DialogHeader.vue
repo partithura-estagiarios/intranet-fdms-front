@@ -1,10 +1,13 @@
 <template>
-  <q-card-section class="custom-color row justify-between text-white">
-    <div class="q-pa-md text-h5 font-custom">{{ $t(props.option) }}</div>
+  <q-card-section
+    class="row items-center justify-between text-white"
+    :class="backgroundClass"
+  >
+    <div class="text-h5 font-custom q-mr-lg">{{ $t(props.option) }}</div>
     <q-icon
       name="close"
-      class="pt-2 cursor-pointer"
-      size="45px"
+      class="cursor-pointer"
+      size="20px"
       @click="emits('close', false)"
     />
   </q-card-section>
@@ -18,6 +21,19 @@ const props = defineProps({
     required: true,
   },
 });
+
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const backgroundClass = computed(() =>
+  layout.value === "CIRON" ? "bg-black" : "custom-color",
+);
 </script>
 <style scoped>
 .font-custom {

@@ -20,7 +20,7 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn
-            color="green"
+            :color="buttonColor"
             :label="$t('formRamal.confirm')"
             type="submit"
             clickable
@@ -52,4 +52,17 @@ async function addFolder() {
   await addCertifcation(nameCert.value, numberCert.value, img.value);
   closeDialog();
 }
+
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const buttonColor = computed(() =>
+  layout.value === "CIRON" ? "orange-14" : "green",
+);
 </script>
