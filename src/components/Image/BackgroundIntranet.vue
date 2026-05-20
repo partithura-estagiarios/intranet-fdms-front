@@ -1,5 +1,5 @@
 <template>
-  <q-img :src="backgroundSrc" class="absolute fixed-full background" />
+  <q-img :src="backgroundSrc" class="fixed-full background" />
 </template>
 
 <script setup lang="ts">
@@ -23,5 +23,6 @@ const backgroundSrc = computed(() =>
 .background {
   z-index: -1;
   opacity: 100%;
+  background-repeat: repeat;
 }
 </style>

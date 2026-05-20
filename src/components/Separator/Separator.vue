@@ -1,6 +1,6 @@
 <template>
-  <q-separator class="color-separator" size="1vh" />
-  <img src="/SEPARATOR.png" />
+  <q-separator :class="separatorClass" size="1vh" />
+  <img :src="separatorImage" :class="layout === 'CIRON' && 'separator-class'" />
   <h4 class="text-bold text-white position-text">
     {{ texto }}
     <span v-if="userStorage.getToken" class="no-padding no-border">
@@ -17,10 +17,6 @@ import { useUsers } from "../../stores";
 
 const userStorage = useUsers();
 const router = useRoute();
-const exceptionRoutes = ["/home"];
-const showTabHeader = computed(() => {
-  return !exceptionRoutes.some((route) => router.fullPath.includes(route));
-});
 const emits = defineEmits(["receveid", "activeBadgeExclusion"]);
 const props = defineProps({
   texto: {
@@ -28,11 +24,37 @@ const props = defineProps({
     required: true,
   },
 });
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const separatorImage = computed(() =>
+  layout.value === "CIRON" ? "/SEPARATOR_CIRON.png" : "/SEPARATOR.png",
+);
+
+const separatorClass = computed(() =>
+  layout.value === "CIRON" ? "color-separator-ciron" : "color-separator",
+);
 </script>
+
 <style scoped>
 .color-separator {
   background-color: rgba(0, 152, 1, 255);
 }
+
+.color-separator-ciron {
+  background-color: #ff5700;
+}
+
+.separator-class {
+  width: 23%;
+}
+
 .position-text {
   font-family: Fira Sans;
   bottom: 6.5rem;
