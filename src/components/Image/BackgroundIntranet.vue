@@ -1,9 +1,23 @@
 <template>
-  <q-img
-    src="/INTRANET_BACKGROUND_ FUNDIMISA.png"
-    class="absolute fixed-full background"
-  />
+  <q-img :src="backgroundSrc" class="absolute fixed-full background" />
 </template>
+
+<script setup lang="ts">
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const backgroundSrc = computed(() =>
+  layout.value === "CIRON"
+    ? "/BACKGROUND_CIRON.png"
+    : "/INTRANET_BACKGROUND_ FUNDIMISA.png",
+);
+</script>
 
 <style scoped>
 .background {
