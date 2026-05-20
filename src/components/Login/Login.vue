@@ -1,14 +1,14 @@
 <template>
-  <q-img src="/INTRANET_FUNDIMISA.png" class="fixed-full absolute" />
+  <q-img :src="backgroundSrc" class="fixed-full absolute" />
 
   <div class="fixed-center column">
     <div class="row">
       <q-card class="justify-center shadow-1 my-card q-pa-xl bordered">
         <q-card-section vertical class="q-gutter-md" align="center">
           <q-avatar rounded size="150px">
-            <img src="ico/ICO_FUNDIMISA.png" />
+            <img :src="logoSrc" />
           </q-avatar>
-          <p class="text-black text-bold text-h4">INTRANET FUNDIMISA</p>
+          <p class="text-black text-bold text-h4">{{ titleText }}</p>
         </q-card-section>
         <q-card-section vertical class="q-gutter-md" align="center">
           <h5 class="text-bold text-subtitle1">
@@ -21,7 +21,7 @@
         </q-card-section>
         <q-card-actions class="q-px-md">
           <q-btn
-            color="green-8"
+            :color="buttonColor"
             size="lg"
             class="relative-position envy full-width"
             :label="$t('login.submitButton')"
@@ -53,6 +53,31 @@ interface Auth {
 
 const userStorage = useUsers();
 const { t } = useI18n();
+
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const isCiron = computed(() => layout.value === "CIRON");
+
+const backgroundSrc = computed(() =>
+  isCiron.value ? "/INTRANET_CIRON.png" : "/INTRANET_FUNDIMISA.png",
+);
+
+const logoSrc = computed(() =>
+  isCiron.value ? "/ico/ICO_CIRON.png" : "/ico/ICO_FUNDIMISA.png",
+);
+
+const titleText = computed(() =>
+  isCiron.value ? "INTRANET CIRON" : "INTRANET FUNDIMISA",
+);
+
+const buttonColor = computed(() => (isCiron.value ? "orange-14" : "green-8"));
 const loginForm: User = reactive({
   labelEmail: "",
   labelInputPassword: "",

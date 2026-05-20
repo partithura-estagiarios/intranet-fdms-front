@@ -11,6 +11,31 @@ import "quasar/src/css/index.sass";
 import "./style.css";
 import "uno.css";
 
+function getLayout(): string {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "";
+  return value.trim().toUpperCase();
+}
+
+function setFavicon(href: string) {
+  let link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
+
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.head.appendChild(link);
+  }
+
+  link.type = href.endsWith(".png") ? "image/png" : "image/x-icon";
+  link.href = href;
+}
+
+if (getLayout() === "CIRON") {
+  setFavicon("/ico/ICO_CIRON.png");
+}
+
 createApp(App)
   .use(Quasar, {
     plugins: { Notify },
