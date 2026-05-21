@@ -7,9 +7,15 @@ export const server_express_url = getEnvironmentVariable(
 import CreateFolderForInt from "../graphql/institutionalImgs/CreateFolderForInt.gql";
 import ExcludeFolderForInt from "../graphql/institutionalImgs/ExcludeFolderForInt.gql";
 import ExcludeFolderForCertification from "../graphql/certification/ExcludeFolderForCertification.gql";
+import { buildAuthorizationHeader } from "../helpers/auth";
 
 interface Message {
   enum: boolean;
+  message: string;
+}
+
+export interface ActionResult {
+  success: boolean;
   message: string;
 }
 
@@ -42,64 +48,120 @@ export const useImgs = defineStore("imgs", {
     setFoldersCertifications(folderName: string[]) {
       this.certifications = [...folderName];
     },
-    async insertImg(path: string, file: any) {
-      const formData = new FormData();
-      formData.append("file", file);
-      const response = await fetch(`${server_express_url}/upload-img`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          "search-path": path,
-        },
-      });
-      if (response.ok) {
-        this.refreshReload;
-      }
-      return !!response;
-    },
-    async insertFolder(folderName: string) {
-      const { createFolderForInt }: { createFolderForInt: Message } =
-        await runMutation(CreateFolderForInt, {
-          folder: folderName,
-        });
-      return createFolderForInt;
-    },
-    async excludeImgInstitutional(path: string) {
+    async insertImg(path: string, file: File): Promise<ActionResult> {
       try {
-        const response = await runMutation(ExcludeFolderForInt, {
-          folder: path,
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch(`${server_express_url}/upload-img`, {
+          method: "POST",
+          body: formData,
+          headers: {
+            ...buildAuthorizationHeader(),
+            "search-path": path,
+          },
         });
-        if (response) {
+
+        if (response.ok) {
+          let data: any = null;
+          try {
+            data = await response.json();
+          } catch {
+            // ignore
+          }
+          this.refreshReload;
+          return {
+            success: true,
+            message: data?.message || "fileSuccess",
+          };
+        }
+
+        let errorData: any = null;
+        try {
+          errorData = await response.json();
+        } catch {
+          // ignore
+        }
+
+        return {
+          success: false,
+          message: errorData?.message || errorData?.error || "unknownError",
+        };
+      } catch {
+        return { success: false, message: "unknownError" };
+      }
+    },
+
+    async insertFolder(folderName: string): Promise<ActionResult> {
+      try {
+        const { createFolderForInt }: { createFolderForInt: Message } =
+          await runMutation(CreateFolderForInt, {
+            folder: folderName,
+          });
+
+        if (createFolderForInt.enum) {
           this.refreshReload;
         }
-        return !!response;
-      } catch (error) {
-        return false;
+
+        return {
+          success: createFolderForInt.enum,
+          message: createFolderForInt.message,
+        };
+      } catch {
+        return { success: false, message: "unknownError" };
       }
     },
-    async deleteFolderInstitutional(folderName: string) {
+
+    async excludeImgInstitutional(path: string): Promise<ActionResult> {
       try {
-        const response = await runMutation(ExcludeFolderForInt, {
-          folder: folderName,
-        });
-        if (response) {
+        const { excludeFolderForInt }: { excludeFolderForInt: Message } =
+          await runMutation(ExcludeFolderForInt, {
+            folder: path,
+          });
+
+        if (excludeFolderForInt.enum) {
           this.refreshReload;
-          return true;
         }
-        return false;
-      } catch (error) {
-        return false;
+
+        return {
+          success: excludeFolderForInt.enum,
+          message: excludeFolderForInt.message,
+        };
+      } catch {
+        return { success: false, message: "unknownError" };
       }
     },
-    async excludeFolder(path: string) {
-      await runMutation(ExcludeFolderForInt, { folder: path });
-      this.refreshReload;
+
+    async deleteFolderInstitutional(folderName: string): Promise<ActionResult> {
+      return this.excludeImgInstitutional(folderName);
     },
-    async excludeCertification(path: string) {
-      await runMutation(ExcludeFolderForCertification, {
-        folder: path,
-      });
-      this.refreshCertificationsReload;
+
+    async excludeFolder(path: string): Promise<ActionResult> {
+      return this.excludeImgInstitutional(path);
+    },
+
+    async excludeCertification(path: string): Promise<ActionResult> {
+      try {
+        const {
+          excludeFolderForCertification,
+        }: { excludeFolderForCertification: Message } = await runMutation(
+          ExcludeFolderForCertification,
+          {
+            folder: path,
+          },
+        );
+
+        if (excludeFolderForCertification.enum) {
+          this.refreshCertificationsReload;
+        }
+
+        return {
+          success: excludeFolderForCertification.enum,
+          message: excludeFolderForCertification.message,
+        };
+      } catch {
+        return { success: false, message: "unknownError" };
+      }
     },
   },
 });

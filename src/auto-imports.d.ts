@@ -16,6 +16,7 @@ declare global {
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const backgroundColor: typeof import('./composables/theme')['backgroundColor']
+  const buildAuthorizationHeader: typeof import('./helpers/auth')['buildAuthorizationHeader']
   const color: typeof import('./composables/theme')['color']
   const computed: typeof import('vue')['computed']
   const computedAsync: typeof import('@vueuse/core')['computedAsync']
@@ -41,6 +42,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const getAuthTokenFromStorage: typeof import('./helpers/auth')['getAuthTokenFromStorage']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getEnvironmentVariable: typeof import('./helpers/environment')['getEnvironmentVariable']
@@ -348,6 +350,7 @@ declare module 'vue' {
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly backgroundColor: UnwrapRef<typeof import('./composables/theme')['backgroundColor']>
+    readonly buildAuthorizationHeader: UnwrapRef<typeof import('./helpers/auth')['buildAuthorizationHeader']>
     readonly color: UnwrapRef<typeof import('./composables/theme')['color']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
@@ -373,6 +376,7 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly getAuthTokenFromStorage: UnwrapRef<typeof import('./helpers/auth')['getAuthTokenFromStorage']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getEnvironmentVariable: UnwrapRef<typeof import('./helpers/environment')['getEnvironmentVariable']>
@@ -670,6 +674,7 @@ declare module '@vue/runtime-core' {
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly backgroundColor: UnwrapRef<typeof import('./composables/theme')['backgroundColor']>
+    readonly buildAuthorizationHeader: UnwrapRef<typeof import('./helpers/auth')['buildAuthorizationHeader']>
     readonly color: UnwrapRef<typeof import('./composables/theme')['color']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
@@ -695,6 +700,7 @@ declare module '@vue/runtime-core' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly getAuthTokenFromStorage: UnwrapRef<typeof import('./helpers/auth')['getAuthTokenFromStorage']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getEnvironmentVariable: UnwrapRef<typeof import('./helpers/environment')['getEnvironmentVariable']>
