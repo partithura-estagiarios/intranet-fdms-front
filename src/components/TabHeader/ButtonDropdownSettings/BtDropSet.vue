@@ -2,10 +2,10 @@
   <q-btn
     v-if="router.currentRoute.value.path != '/login'"
     color="white"
-    :icon="getTokenValue"
+    :icon="authIcon"
     flat
     size="1.5rem"
-    @click="handleLogOff(text)"
+    @click="handleAuthClick"
   />
 </template>
 
@@ -13,21 +13,15 @@
 import { useUsers } from "../../../stores/user";
 import { router } from "../../../modules";
 const userStorage = useUsers();
-const text = ref("");
-const card = ref(false);
 
-function handleLogOff(val: String) {
-  card.value = !card.value;
-  if (val.includes("login")) {
-    return userStorage.login();
+const authIcon = computed(() => (userStorage.getToken ? "logout" : "login"));
+
+function handleAuthClick() {
+  if (userStorage.getToken) {
+    return userStorage.logout();
   }
-
-  return userStorage.logout();
+  return router.push("/login");
 }
-
-const getTokenValue = computed(() => {
-  return userStorage.getToken ? "logout" : "login";
-});
 </script>
 <style scoped>
 .my-card {

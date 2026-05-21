@@ -8,7 +8,7 @@
           v-close-popup
           flat
           type="submit"
-          color="green"
+          :color="buttonColor"
           :label="$t('action.confirm')"
           class="font-custom"
           @click="createSystem"
@@ -51,6 +51,18 @@ const createSystem = () => {
   }
   negativeNotify(t("errors.fillAllFields"));
 };
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const buttonColor = computed(() =>
+  layout.value === "CIRON" ? "orange-14" : "green",
+);
 </script>
 <style scoped>
 .font-custom {

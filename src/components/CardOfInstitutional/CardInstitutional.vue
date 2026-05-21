@@ -1,5 +1,7 @@
 <template>
-  <q-card class="my-card shadow-2 bg-white">
+  <q-card
+    :class="['my-card', 'shadow-2', 'bg-white', isCiron ? 'layout-ciron' : '']"
+  >
     <div class="row items-stretch full-height">
       <div class="col-3 modern-sidebar column justify-between">
         <div>
@@ -23,7 +25,13 @@
               :key="name"
               clickable
               class="sidebar-item"
-              :class="{ 'is-selected': titleImg === name }"
+              :class="
+                titleImg === name
+                  ? isCiron
+                    ? 'bg-white text-orange-14'
+                    : 'is-selected'
+                  : ''
+              "
               @click="selectFolder(name)"
             >
               <q-item-section avatar min-width="32px">
@@ -47,7 +55,11 @@
         >
           <q-btn
             unelevated
-            class="full-width btn-call-to-action"
+            :class="[
+              'full-width',
+              'btn-call-to-action',
+              isCiron ? 'btn-call-to-action--ciron' : '',
+            ]"
             @click="openAddFolderDialog"
           >
             <div
@@ -212,6 +224,17 @@ const imgsRef = ref<any>(null);
 const computedTitleImg = computed(() => titleImg.value);
 const isLogged = computed(() => userStorage.getToken);
 
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const isCiron = computed(() => layout.value === "CIRON");
+
 function openDeleteImgDialog() {
   showDeleteImgDialog.value = true;
 }
@@ -230,8 +253,10 @@ function updateCardFolder(value: boolean) {
 
 async function loadAllDocsInt() {
   try {
-    const response = await runQuery(GetAllImgs);
-    const getAllImgs: FoldersIntitutional[] = response?.getAllImgs || [];
+    const response = (await runQuery(GetAllImgs)) as {
+      getAllImgs?: FoldersIntitutional[];
+    };
+    const getAllImgs: FoldersIntitutional[] = response?.getAllImgs ?? [];
     allFolders.value = createPath(getAllImgs);
     namesOfImgs.value = getAllImgs.map((folder) => folder.name);
     if (namesOfImgs.value.length > 0 && !titleImg.value) {
@@ -291,6 +316,15 @@ onMounted(() => {
   margin-top: -7rem;
   border-radius: 8px;
   overflow: hidden;
+}
+
+.layout-ciron .modern-sidebar {
+  background-color: var(--q-dark) !important;
+}
+
+.layout-ciron .btn-call-to-action--ciron {
+  background-color: var(--q-warning) !important;
+  color: var(--q-dark) !important;
 }
 
 .modern-sidebar {

@@ -28,22 +28,41 @@ const props = defineProps({
 
 defineEmits(["click"]);
 
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const isCiron = computed(() => layout.value === "CIRON");
+
 const borderContainerClass = computed(() => {
   return props.variant === "root" ? "border-root" : "border-subfolder";
 });
 
 const itemBackgroundClass = computed(() => {
-  return props.variant === "root" ? "bg-light-blue-9" : "bg-grey-3";
+  if (props.variant === "root") {
+    return isCiron.value ? "bg-white" : "bg-light-blue-9";
+  }
+  return "bg-grey-3";
 });
 
 const iconColor = computed(() => {
-  return props.variant === "root" ? "white" : "grey-8";
+  if (props.variant !== "root") {
+    return "grey-8";
+  }
+  return isCiron.value ? "orange-14" : "white";
 });
 
 const textClass = computed(() => {
-  return props.variant === "root"
-    ? "text-white text-bold"
-    : "text-grey-8 text-bold";
+  if (props.variant !== "root") {
+    return "text-grey-8 text-bold";
+  }
+
+  return isCiron.value ? "text-orange-14 text-bold" : "text-white text-bold";
 });
 </script>
 

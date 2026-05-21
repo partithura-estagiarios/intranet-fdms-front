@@ -35,6 +35,15 @@ const route = useRoute();
 const options = ["/processes", "/institutional"];
 const systemStorage = useSystems();
 
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
 function removeCharacterSpecial(rout: string) {
   const parts = rout.split("/");
   return t(`tab.${parts.join("")}`);
@@ -42,7 +51,9 @@ function removeCharacterSpecial(rout: string) {
 
 function tabClass() {
   if (options.includes(route.fullPath)) {
-    return "text-green bg-white rounded-borders";
+    return layout.value === "CIRON"
+      ? "text-orange-14 bg-white rounded-borders"
+      : "text-green bg-white rounded-borders";
   }
 }
 function selectOption(opt: string) {

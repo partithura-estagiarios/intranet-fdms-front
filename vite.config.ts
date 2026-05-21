@@ -11,6 +11,9 @@ import Unocss from "unocss/vite";
 import vuePlugin from "@quasar/quasar-ui-qcalendar";
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Expose only env vars that are meant for the client.
+  // Allows using `LAYOUT=CIRON` in .env (without needing VITE_ prefix).
+  envPrefix: ["VITE_", "LAYOUT"],
   resolve: {
     alias: {
       "~": `${path.resolve(__dirname, "src")}/`,

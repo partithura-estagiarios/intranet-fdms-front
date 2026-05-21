@@ -2,7 +2,8 @@
   <div class="row justify-between">
     <div class="q-pa-md">
       <q-btn
-        class="bg-green text-white q-px-md font-custom"
+        class="text-white q-px-md font-custom"
+        :class="buttonColor"
         :label="$t('text.addRamal')"
         @click="openDialog()"
         v-if="userStorage.getToken"
@@ -51,6 +52,19 @@ function openDialog() {
 async function searchRamalInBack() {
   ramaisStorage.searchRamal(search.value);
 }
+
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const buttonColor = computed(() =>
+  layout.value === "CIRON" ? "bg-orange-14" : "bg-green",
+);
 </script>
 <style scoped>
 .font-custom {

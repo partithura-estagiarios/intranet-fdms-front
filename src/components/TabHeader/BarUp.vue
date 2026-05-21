@@ -1,30 +1,31 @@
 <template>
-  <q-toolbar class="color-custom q-py-lg z-top">
-    <q-btn flat to="/home" class="q-py-sm q-px-md absolute-top-left">
-      <img src="/ico/LOGO_FUNDIMISA.png" class="q-py-lg" />
+  <q-toolbar :class="toolbarClass">
+    <q-btn flat to="/home" class="q-py-sm q-px-md self-center">
+      <img :src="logo" class="logo-img" />
     </q-btn>
 
-    <q-space class="q-px-xl q-mx-xl" />
-    <q-tabs
-      v-model="tab"
-      indicator-color="transparent"
-      class="font-route-tab text-white"
-      v-for="item in tabItems"
-    >
-      <q-btn
-        :class="tabClass(item.name)"
-        no-caps
-        @click="goToRoute(item.name)"
-        flat
-        size="1.2rem"
-        class="q-py-xs padding-custom-btn"
-        dense
-        :label="$t(`tab.${item.label}`)"
-      />
-    </q-tabs>
-    <BtDropDocSig />
-    <q-space />
-    <div class="row absolute-top-right q-py-md q-px-sm">
+    <div class="row">
+      <q-tabs
+        v-model="tab"
+        indicator-color="transparent"
+        class="font-route-tab text-white"
+        v-for="item in tabItems"
+      >
+        <q-btn
+          :class="tabClass(item.name)"
+          no-caps
+          @click="goToRoute(item.name)"
+          flat
+          size="1.2rem"
+          class="q-py-xs padding-custom-btn"
+          dense
+          :label="$t(`tab.${item.label}`)"
+        />
+      </q-tabs>
+      <BtDropDocSig />
+    </div>
+
+    <div class="row self-center q-py-md q-px-sm">
       <BtDropSet />
     </div>
   </q-toolbar>
@@ -35,10 +36,35 @@ import { tabItems } from "./lib";
 import { router } from "../../modules/router";
 
 const tab = ref("home");
+
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const logo = computed(() =>
+  layout.value === "CIRON" ? "/LOGO_CIRON.png" : "/ico/LOGO_FUNDIMISA.png",
+);
+
+const toolbarClass = computed(() => [
+  "q-py-sm",
+  "row",
+  "justify-between",
+  layout.value === "CIRON" ? "bg-black" : "color-custom",
+]);
+
 function tabClass(itemName: string) {
-  if (`/${itemName}` === router.currentRoute.value.path)
-    return "text-green bg-white rounded-borders	";
+  if (`/${itemName}` !== router.currentRoute.value.path) return;
+
+  return layout.value === "CIRON"
+    ? "text-orange-14 bg-white rounded-borders"
+    : "text-green bg-white rounded-borders";
 }
+
 function goToRoute(rout: string) {
   if (rout === "docSig") {
   }
@@ -48,14 +74,24 @@ onMounted(() => {
   goToRoute("home");
 });
 </script>
+
 <style scoped>
 .font-route-tab {
   font-family: Fira Sans;
 }
+.logo-img {
+  height: 60px;
+  width: auto;
+  max-width: 300px;
+  display: block;
+  object-fit: contain;
+}
+
 .color-custom {
   background-color: rgb(31, 73, 125);
 }
+
 .padding-custom-btn {
-  padding-inline: 0.5rem;
+  padding-inline: 1rem;
 }
 </style>

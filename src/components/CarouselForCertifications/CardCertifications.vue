@@ -1,5 +1,5 @@
 <template>
-  <q-card class="row my-card no-wrap">
+  <q-card :class="['row', 'my-card', 'no-wrap', isCiron ? 'layout-ciron' : '']">
     <q-card-section
       class="col-4 modern-sidebar q-pa-none column justify-between"
     >
@@ -24,7 +24,13 @@
             :key="name"
             clickable
             class="sidebar-item"
-            :class="{ 'is-selected': selectedTab === name }"
+            :class="
+              selectedTab === name
+                ? isCiron
+                  ? 'bg-white text-orange-14'
+                  : 'is-selected'
+                : ''
+            "
             @click="selectItem(name)"
           >
             <q-item-section avatar class="icon-section">
@@ -43,7 +49,11 @@
       <div v-if="isLogged" class="column q-pa-md q-gutter-y-sm sidebar-footer">
         <q-btn
           unelevated
-          class="full-width btn-call-to-action"
+          :class="[
+            'full-width',
+            'btn-call-to-action',
+            isCiron ? 'btn-call-to-action--ciron' : '',
+          ]"
           @click="openAddDialog"
         >
           <q-icon name="add_circle_outline" size="sm" class="q-mr-sm" />
@@ -97,6 +107,17 @@ const hasSelectedTab = computed(() => !!selectedTab.value);
 const isImageValid = computed(() =>
   imgsStorage.certifications.includes(selectedTab.value),
 );
+
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const isCiron = computed(() => layout.value === "CIRON");
 const FIRST_CERTIFICATION_INDEX = 0;
 const EMPTY_IMAGE_NAME = "";
 function openAddDialog() {
@@ -153,6 +174,14 @@ watchEffect(() => {
   margin-top: -7rem;
   border-radius: 8px;
   overflow: hidden;
+}
+
+.layout-ciron .modern-sidebar {
+  background-color: var(--q-dark) !important;
+}
+
+.layout-ciron .btn-call-to-action--ciron {
+  background-color: var(--q-warning) !important;
 }
 
 .modern-sidebar {

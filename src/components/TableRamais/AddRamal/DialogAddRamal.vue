@@ -3,13 +3,20 @@
     <q-card>
       <q-form @submit="optionRamal">
         <q-card-section
-          class="custom-color font-custom row justify-between text-white"
+          :class="[
+            isCiron ? 'bg-black' : 'custom-color',
+            'font-custom',
+            'row',
+            'items-center',
+            'justify-between',
+            'text-white',
+          ]"
         >
-          <div class="q-pa-md text-h5">{{ $t("text." + props.option) }}</div>
+          <div class="text-h5">{{ $t("text." + props.option) }}</div>
           <q-icon
             name="close"
-            class="pt-2 cursor-pointer"
-            size="45px"
+            class="cursor-pointer"
+            size="25px"
             @click="emits('close', false)"
           />
         </q-card-section>
@@ -58,7 +65,12 @@
         </div>
         <q-card-actions
           align="right"
-          class="pt-12 pa-5 text-green-8 font-custom"
+          :class="[
+            'pt-12',
+            'pa-5',
+            'font-custom',
+            isCiron ? 'text-orange-14' : 'text-green-8',
+          ]"
         >
           <q-btn flat :label="$t('formRamal.confirm')" type="submit" />
         </q-card-actions>
@@ -100,6 +112,17 @@ const label = reactive({
 const labelDefinite = computed(() => {
   return props.ramal ?? label;
 });
+
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const isCiron = computed(() => layout.value === "CIRON");
 
 const optionRamal = async () => {
   switch (props.option) {

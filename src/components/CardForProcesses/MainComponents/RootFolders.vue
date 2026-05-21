@@ -1,5 +1,13 @@
 <template>
-  <q-card-section class="col-2 column q-pa-none container">
+  <q-card-section
+    :class="[
+      'col-2',
+      'column',
+      'q-pa-none',
+      'container',
+      isCiron ? 'container--ciron' : '',
+    ]"
+  >
     <div class="col scroll q-pa-sm custom-scroll">
       <FileListItem
         v-for="item in fileStorage.folders"
@@ -56,6 +64,17 @@ const useUser = useUsers();
 
 const fileStorage = useFiles();
 
+const layout = computed(() => {
+  const value =
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+});
+
+const isCiron = computed(() => layout.value === "CIRON");
+
 type ModalAction = "add" | "edit" | "delete" | null;
 
 const activeModal = ref<ModalAction>(null);
@@ -99,6 +118,10 @@ function isItemActive(path: string) {
 <style scoped>
 .container {
   background-color: rgb(31, 73, 125);
+}
+
+.container--ciron {
+  background-color: var(--q-dark);
 }
 
 .custom-scroll::-webkit-scrollbar {
