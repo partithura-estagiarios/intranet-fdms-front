@@ -30,9 +30,9 @@ const props = defineProps({
 });
 async function addFolder() {
   const result = await imgsStorage.insertFolder(nameFolder.value);
-  if (result.enum) {
-    imgsStorage.refreshReload;
+  if (result.success) {
     closeDialog();
+    emits("folder-created");
     return positiveNotify(t(`action.${result.message}`));
   }
   negativeNotify(t(`action.${result.message}`));

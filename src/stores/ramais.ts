@@ -43,6 +43,7 @@ export const useRamais = defineStore(id, {
     },
     searchRamal: async (word: string) => {
       const ramaisStorage = useRamais();
+      ramaisStorage.word = word ?? "";
       const { searchRamal }: { searchRamal: Ramal[] } = await runQuery(
         SearchRamal,
         {
@@ -62,6 +63,18 @@ export const useRamais = defineStore(id, {
         },
       );
       ramaisStorage.pages = getLenghtRamais;
+    },
+
+    refreshCurrent: async () => {
+      const ramaisStorage = useRamais();
+      const hasSearch = !!ramaisStorage.word?.trim();
+
+      if (hasSearch) {
+        await ramaisStorage.searchRamal(ramaisStorage.word);
+        return;
+      }
+
+      await ramaisStorage.loadRamais(ramaisStorage.pagination || 0);
     },
   },
 });

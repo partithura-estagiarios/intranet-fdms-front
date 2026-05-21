@@ -23,7 +23,7 @@ const props = defineProps({
     required: true,
   },
 });
-const { t } = useI18n();
+const { notifyResponse } = useNotify();
 const folder = ref();
 const img = ref();
 const emits = defineEmits(["update-card"]);
@@ -34,9 +34,9 @@ function closeDialog() {
 
 async function addImg() {
   const response = await imgsStorage.insertImg(folder.value, img.value);
-  if (response) {
+  notifyResponse(response);
+  if (response.success) {
     closeDialog();
-    positiveNotify(t("action.fileSuccess"));
   }
 }
 </script>

@@ -27,6 +27,7 @@
       </q-btn>
     </div>
     <q-btn
+      v-if="useUser.getToken"
       class="q-my-sm rounded-borders bg-grey-3"
       v-ripple
       @click="$emit('add')"
@@ -40,6 +41,7 @@
   </div>
 </template>
 <script setup>
+const useUser = useUsers();
 defineEmits(["open", "edit", "delete", "add"]);
 defineProps({
   hasSelectedItem: {

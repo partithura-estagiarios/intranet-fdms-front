@@ -213,6 +213,7 @@ import { useUsers } from "../../stores/user";
 
 const imgsStorage = useImgs();
 const userStorage = useUsers();
+const { notifyResponse } = useNotify();
 const showDeleteImgDialog = ref(false);
 const namesOfImgs = ref<string[]>([]);
 const allFolders = ref<any[]>([]);
@@ -271,18 +272,22 @@ async function executeDeletion() {
   if (!titleImg.value) {
     return;
   }
-  const success = await imgsStorage.deleteFolderInstitutional(titleImg.value);
-  if (success) {
+  const result = await imgsStorage.deleteFolderInstitutional(titleImg.value);
+  notifyResponse(result);
+  if (result.success) {
     showDeleteDialog.value = false;
     titleImg.value = "";
     await loadAllDocsInt();
   }
 }
 
-function executeImgDeletion() {
+async function executeImgDeletion() {
   if (imgsRef.value && typeof imgsRef.value.deleteImg === "function") {
-    imgsRef.value.deleteImg();
-    showDeleteImgDialog.value = false;
+    const result = await imgsRef.value.deleteImg();
+    notifyResponse(result);
+    if (result.success) {
+      showDeleteImgDialog.value = false;
+    }
   }
 }
 
@@ -299,7 +304,8 @@ async function uploadImg(event: Event) {
     return;
   }
   const result = await imgsStorage.insertImg(titleImg.value, file);
-  if (result) {
+  notifyResponse(result);
+  if (result.success) {
     await loadAllDocsInt();
   }
 }

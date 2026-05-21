@@ -85,6 +85,7 @@ import DeleteRamal from "../../../graphql/ramais/DeleteRamal.gql";
 import EditRamal from "../../../graphql/ramais/EditRamal.gql";
 import { useFieldValidation } from "../../../composables/rules";
 import { resetFields } from "./lib";
+import { useRamais } from "../../../stores/ramais";
 
 const { validateNotEmpty } = useFieldValidation();
 const props = defineProps({
@@ -103,6 +104,7 @@ const props = defineProps({
 });
 const { t } = useI18n();
 const emits = defineEmits(["close"]);
+const ramaisStorage = useRamais();
 const label = reactive({
   id: "",
   sector: "",
@@ -127,38 +129,41 @@ const isCiron = computed(() => layout.value === "CIRON");
 const optionRamal = async () => {
   switch (props.option) {
     case "addRamal":
-      const { id, ...newRamal } = labelDefinite.value;
-      return runMutation(AddRamal, {
-        newRamal: newRamal,
-      })
-        .then(() => {
-          resetFields(labelDefinite.value);
-          emits("close");
-          positiveNotify(t("sucessRamal." + props.option));
-        })
-        .catch(() => {
-          negativeNotify(t("erroRamal." + props.option));
+      try {
+        const { id, ...newRamal } = labelDefinite.value;
+        await runMutation(AddRamal, {
+          newRamal: newRamal,
         });
+        await ramaisStorage.refreshCurrent();
+        resetFields(labelDefinite.value);
+        emits("close");
+        positiveNotify(t("sucessRamal." + props.option));
+      } catch {
+        negativeNotify(t("erroRamal." + props.option));
+      }
+      return;
 
     case "editRamal":
-      return runMutation(EditRamal, { ramal: labelDefinite.value })
-        .then(() => {
-          emits("close");
-          positiveNotify(t("sucessRamal." + props.option));
-        })
-        .catch(() => {
-          negativeNotify(t("erroRamal." + props.option));
-        });
+      try {
+        await runMutation(EditRamal, { ramal: labelDefinite.value });
+        await ramaisStorage.refreshCurrent();
+        emits("close");
+        positiveNotify(t("sucessRamal." + props.option));
+      } catch {
+        negativeNotify(t("erroRamal." + props.option));
+      }
+      return;
 
     case "deleteRamal":
-      return runMutation(DeleteRamal, { id: labelDefinite.value.id })
-        .then(() => {
-          emits("close");
-          positiveNotify(t("sucessRamal." + props.option));
-        })
-        .catch(() => {
-          negativeNotify(t("erroRamal." + props.option));
-        });
+      try {
+        await runMutation(DeleteRamal, { id: labelDefinite.value.id });
+        await ramaisStorage.refreshCurrent();
+        emits("close");
+        positiveNotify(t("sucessRamal." + props.option));
+      } catch {
+        negativeNotify(t("erroRamal." + props.option));
+      }
+      return;
 
     default:
       return Promise.resolve();

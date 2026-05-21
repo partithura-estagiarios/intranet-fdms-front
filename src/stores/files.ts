@@ -3,6 +3,7 @@ import { FileSystemItem } from "../entities/files";
 import CreateFolder from "../graphql/folders/CreateFolder.gql";
 import DeleteItem from "../graphql/folders/DeleteItem.gql";
 import RenameFolder from "../graphql/folders/RenameFolder.gql";
+import { buildAuthorizationHeader } from "../helpers/auth";
 const server_express_url = getEnvironmentVariable(
   "VITE_URL_BACK_SERVER_EXPRESS_FOR_ARCHIVES",
 );
@@ -148,6 +149,9 @@ export const useFiles = defineStore(id, {
       const response = await fetch(`${server_express_url}/upload`, {
         method: "POST",
         body: formData,
+        headers: {
+          ...buildAuthorizationHeader(),
+        },
       });
 
       if (response.ok) {
@@ -175,6 +179,7 @@ export const useFiles = defineStore(id, {
         {
           method: "PATCH",
           headers: {
+            ...buildAuthorizationHeader(),
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
