@@ -25,6 +25,7 @@
       </q-item-section>
 
       <ActionMenu
+        v-if="useUser.getToken"
         :item="item"
         :iconColor="actionMenuIconColor"
         @edit="$emit('edit', item)"
@@ -36,6 +37,8 @@
 
 <script setup lang="ts">
 import { formatFileName } from "../lib";
+
+const useUser = useUsers();
 
 const props = defineProps({
   item: {
