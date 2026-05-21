@@ -6,10 +6,9 @@ WORKDIR /app
 
 # dependencies
 COPY ./package.* ./yarn.* ./.yarnrc* ./
-COPY .yarn .yarn
 
 RUN yarn --version && \
-  yarn install --immutable --inline-builds
+  yarn install --frozen-lockfile
 
 # configs
 COPY ./*.yml ./*.ts ./*.json ./
