@@ -34,6 +34,8 @@
 <script setup lang="ts">
 import { addCertifcation } from "./lib";
 
+const { notifyResponse } = useNotify();
+
 const emits = defineEmits(["update-card-folder"]);
 const nameCert = ref();
 const numberCert = ref();
@@ -49,8 +51,15 @@ function closeDialog() {
   emits("update-card-folder", false);
 }
 async function addFolder() {
-  await addCertifcation(nameCert.value, numberCert.value, img.value);
-  closeDialog();
+  const result = await addCertifcation(
+    nameCert.value,
+    numberCert.value,
+    img.value,
+  );
+  const ok = notifyResponse(result);
+  if (ok) {
+    closeDialog();
+  }
 }
 
 const layout = computed(() => {

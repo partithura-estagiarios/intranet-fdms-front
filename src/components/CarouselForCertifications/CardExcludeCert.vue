@@ -27,6 +27,7 @@ import { ref } from "vue";
 import { useImgs } from "../../stores/imgs";
 
 const imgsStorage = useImgs();
+const { notifyResponse } = useNotify();
 
 const emits = defineEmits(["update-card-folder"]);
 
@@ -46,8 +47,11 @@ function closeDialog() {
 
 async function excludeCert() {
   if (select.value) {
-    await imgsStorage.excludeCertification(select.value);
-    closeDialog();
+    const result = await imgsStorage.excludeCertification(select.value);
+    const ok = notifyResponse(result);
+    if (ok) {
+      closeDialog();
+    }
   }
 }
 </script>

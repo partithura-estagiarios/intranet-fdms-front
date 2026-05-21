@@ -65,12 +65,14 @@ async function deleteImg() {
   const imageToExclude = filteredImages.value[slide.value];
 
   if (imageToExclude) {
-    const success = await imgsStorage.excludeImgInstitutional(imageToExclude);
-
-    if (success) {
+    const result = await imgsStorage.excludeImgInstitutional(imageToExclude);
+    if (result.success) {
       emit("update-imgs");
     }
+    return result;
   }
+
+  return { success: false, message: "unknownError" };
 }
 
 defineExpose({ deleteImg });
