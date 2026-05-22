@@ -53,14 +53,7 @@ async function searchRamalInBack() {
   ramaisStorage.searchRamal(search.value);
 }
 
-const layout = computed(() => {
-  const value =
-    (import.meta.env["LAYOUT"] as string | undefined) ??
-    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
-    "FUNDIMISA";
-
-  return value.trim().toUpperCase();
-});
+const layout = computed(() => getLayout());
 
 const buttonColor = computed(() =>
   layout.value === "CIRON" ? "bg-orange-14" : "bg-green",

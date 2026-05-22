@@ -12,3 +12,17 @@ export function getEnvironmentVariable(name: string): string {
   }
   throw new Error(`Environment variable ${name} is not defined.`);
 }
+
+export function getLayout(): string {
+  const runtimeConfig = globalThis as typeof globalThis & {
+    __APP_CONFIG__?: Record<string, string>;
+  };
+
+  const value =
+    runtimeConfig.__APP_CONFIG__?.LAYOUT ??
+    (import.meta.env["LAYOUT"] as string | undefined) ??
+    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
+    "FUNDIMISA";
+
+  return value.trim().toUpperCase();
+}

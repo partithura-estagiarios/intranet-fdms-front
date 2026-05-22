@@ -46,6 +46,7 @@ declare global {
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getEnvironmentVariable: typeof import('./helpers/environment')['getEnvironmentVariable']
+  const getLayout: typeof import('./helpers/environment')['getLayout']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const imgs: typeof import('./stores/imgs')['default']
@@ -380,6 +381,7 @@ declare module 'vue' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getEnvironmentVariable: UnwrapRef<typeof import('./helpers/environment')['getEnvironmentVariable']>
+    readonly getLayout: UnwrapRef<typeof import('./helpers/environment')['getLayout']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly infoNotify: UnwrapRef<typeof import('./helpers/notify')['infoNotify']>
@@ -704,6 +706,7 @@ declare module '@vue/runtime-core' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getEnvironmentVariable: UnwrapRef<typeof import('./helpers/environment')['getEnvironmentVariable']>
+    readonly getLayout: UnwrapRef<typeof import('./helpers/environment')['getLayout']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly infoNotify: UnwrapRef<typeof import('./helpers/notify')['infoNotify']>

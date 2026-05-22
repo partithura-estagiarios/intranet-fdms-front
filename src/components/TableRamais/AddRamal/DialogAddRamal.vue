@@ -115,14 +115,7 @@ const labelDefinite = computed(() => {
   return props.ramal ?? label;
 });
 
-const layout = computed(() => {
-  const value =
-    (import.meta.env["LAYOUT"] as string | undefined) ??
-    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
-    "FUNDIMISA";
-
-  return value.trim().toUpperCase();
-});
+const layout = computed(() => getLayout());
 
 const isCiron = computed(() => layout.value === "CIRON");
 

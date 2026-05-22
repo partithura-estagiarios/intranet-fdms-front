@@ -75,14 +75,7 @@ const props = defineProps({
   },
 });
 
-const layout = computed(() => {
-  const value =
-    (import.meta.env["LAYOUT"] as string | undefined) ??
-    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
-    "FUNDIMISA";
-
-  return value.trim().toUpperCase();
-});
+const layout = computed(() => getLayout());
 
 const accentClass = computed(() =>
   layout.value === "CIRON" ? "text-black" : "custom-color",

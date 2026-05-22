@@ -108,14 +108,7 @@ const isImageValid = computed(() =>
   imgsStorage.certifications.includes(selectedTab.value),
 );
 
-const layout = computed(() => {
-  const value =
-    (import.meta.env["LAYOUT"] as string | undefined) ??
-    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
-    "FUNDIMISA";
-
-  return value.trim().toUpperCase();
-});
+const layout = computed(() => getLayout());
 
 const isCiron = computed(() => layout.value === "CIRON");
 const FIRST_CERTIFICATION_INDEX = 0;

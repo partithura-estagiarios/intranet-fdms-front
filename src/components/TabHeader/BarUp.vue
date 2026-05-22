@@ -37,14 +37,7 @@ import { router } from "../../modules/router";
 
 const tab = ref("home");
 
-const layout = computed(() => {
-  const value =
-    (import.meta.env["LAYOUT"] as string | undefined) ??
-    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
-    "FUNDIMISA";
-
-  return value.trim().toUpperCase();
-});
+const layout = computed(() => getLayout());
 
 const logo = computed(() =>
   layout.value === "CIRON" ? "/LOGO_CIRON.png" : "/ico/LOGO_FUNDIMISA.png",

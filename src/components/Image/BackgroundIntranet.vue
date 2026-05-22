@@ -3,14 +3,7 @@
 </template>
 
 <script setup lang="ts">
-const layout = computed(() => {
-  const value =
-    (import.meta.env["LAYOUT"] as string | undefined) ??
-    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
-    "FUNDIMISA";
-
-  return value.trim().toUpperCase();
-});
+const layout = computed(() => getLayout());
 
 const backgroundSrc = computed(() =>
   layout.value === "CIRON"

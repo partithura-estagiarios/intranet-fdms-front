@@ -35,14 +35,7 @@ const route = useRoute();
 const options = ["/processes", "/institutional"];
 const systemStorage = useSystems();
 
-const layout = computed(() => {
-  const value =
-    (import.meta.env["LAYOUT"] as string | undefined) ??
-    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
-    "FUNDIMISA";
-
-  return value.trim().toUpperCase();
-});
+const layout = computed(() => getLayout());
 
 function removeCharacterSpecial(rout: string) {
   const parts = rout.split("/");

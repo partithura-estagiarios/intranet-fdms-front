@@ -24,14 +24,7 @@ const props = defineProps({
     required: true,
   },
 });
-const layout = computed(() => {
-  const value =
-    (import.meta.env["LAYOUT"] as string | undefined) ??
-    (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
-    "FUNDIMISA";
-
-  return value.trim().toUpperCase();
-});
+const layout = computed(() => getLayout());
 
 const separatorImage = computed(() =>
   layout.value === "CIRON" ? "/SEPARATOR_CIRON.png" : "/SEPARATOR.png",
