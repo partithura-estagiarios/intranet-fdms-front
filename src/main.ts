@@ -11,8 +11,17 @@ import "quasar/src/css/index.sass";
 import "./style.css";
 import "uno.css";
 
+function getRuntimeEnvironmentVariable(name: string): string | undefined {
+  const runtimeConfig = globalThis as typeof globalThis & {
+    __APP_CONFIG__?: Record<string, string>;
+  };
+
+  return runtimeConfig.__APP_CONFIG__?.[name];
+}
+
 function getLayout(): string {
   const value =
+    getRuntimeEnvironmentVariable("LAYOUT") ??
     (import.meta.env["LAYOUT"] as string | undefined) ??
     (import.meta.env["VITE_LAYOUT"] as string | undefined) ??
     "";
