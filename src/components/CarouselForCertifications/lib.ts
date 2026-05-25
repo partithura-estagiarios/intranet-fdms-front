@@ -4,6 +4,7 @@ import type { ActionResult } from "../../stores/imgs";
 import { buildAuthorizationHeader } from "../../helpers/auth";
 
 const imgsStorage = useImgs();
+const archivesBaseUrl = import.meta.env.DEV ? "" : server_express_url;
 function isNewFileName(newName: string) {
   if (newName) {
     return newName + ".jpg";
@@ -13,7 +14,7 @@ export async function addCertifcation(name: string, number: string, img: File) {
   const formData = new FormData();
   formData.append("file", img, isNewFileName(name + number));
   try {
-    const response = await fetch(`${server_express_url}/upload-img-doc`, {
+    const response = await fetch(`${archivesBaseUrl}/upload-img-doc`, {
       method: "POST",
       body: formData,
       headers: {

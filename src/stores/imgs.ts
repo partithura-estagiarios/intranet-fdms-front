@@ -51,9 +51,12 @@ export const useImgs = defineStore("imgs", {
     async insertImg(path: string, file: File): Promise<ActionResult> {
       try {
         const formData = new FormData();
+        formData.append("search-path", path);
         formData.append("file", file);
 
-        const response = await fetch(`${server_express_url}/upload-img`, {
+        const baseUrl = import.meta.env.DEV ? "" : server_express_url;
+
+        const response = await fetch(`${baseUrl}/upload-img`, {
           method: "POST",
           body: formData,
           headers: {
