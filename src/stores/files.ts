@@ -7,6 +7,8 @@ import { buildAuthorizationHeader } from "../helpers/auth";
 const server_express_url = getEnvironmentVariable(
   "VITE_URL_BACK_SERVER_EXPRESS_FOR_ARCHIVES",
 );
+
+const archivesBaseUrl = import.meta.env.DEV ? "" : server_express_url;
 interface Message {
   enum: boolean;
   message: string;
@@ -83,7 +85,7 @@ export const useFiles = defineStore(id, {
     },
 
     displayPdf(filePath: string) {
-      const pdfUrl = `${server_express_url}/serve-pdf/${filePath}`;
+      const pdfUrl = `${archivesBaseUrl}/serve-pdf/${filePath}`;
       window.open(pdfUrl, "_blank");
     },
 
@@ -146,7 +148,7 @@ export const useFiles = defineStore(id, {
         formData.append("old-file-name", oldFileName);
       }
 
-      const response = await fetch(`${server_express_url}/upload`, {
+      const response = await fetch(`${archivesBaseUrl}/upload`, {
         method: "POST",
         body: formData,
         headers: {
@@ -174,21 +176,18 @@ export const useFiles = defineStore(id, {
     },
 
     async editFile(path: string, identifier: string, description: string) {
-      const response = await fetch(
-        `${server_express_url}/update-pdf-metadata`,
-        {
-          method: "PATCH",
-          headers: {
-            ...buildAuthorizationHeader(),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            "search-path": path,
-            identifier,
-            description,
-          }),
+      const response = await fetch(`${archivesBaseUrl}/update-pdf-metadata`, {
+        method: "PATCH",
+        headers: {
+          ...buildAuthorizationHeader(),
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          "search-path": path,
+          identifier,
+          description,
+        }),
+      });
 
       if (response.ok) {
         const data = await response.json();

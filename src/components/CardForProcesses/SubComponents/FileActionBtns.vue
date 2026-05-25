@@ -1,6 +1,9 @@
 <template>
   <div class="q-px-sm col-auto border-b flex justify-between">
-    <div class="flex row q-gutter-x-sm q-my-sm text-grey-8">
+    <div
+      v-if="useUser.getToken"
+      class="flex row q-gutter-x-sm q-my-sm text-grey-8"
+    >
       <q-btn
         v-if="hasSelectedItem"
         class="rounded-borders text-bold text-lowercase"
