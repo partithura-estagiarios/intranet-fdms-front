@@ -30,7 +30,7 @@ export default {
     ed: "Comprado",
   },
   edit: "Editar",
-  delete: "Excluír",
+  delete: "Excluir",
   open: "abrir",
   back: "Voltar",
   login: "Fazer login",

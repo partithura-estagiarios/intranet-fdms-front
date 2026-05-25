@@ -1,5 +1,5 @@
 <template>
-  <q-item-section side @click.stop>
+  <q-item-section v-if="useUser.getToken" side @click.stop>
     <q-btn flat round dense icon="more_vert" :color="iconColor">
       <q-menu auto-close>
         <q-list>
@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+const useUser = useUsers();
 defineProps({
   item: {
     type: Object,
