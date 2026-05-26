@@ -90,10 +90,14 @@ export const useFiles = defineStore(id, {
     },
 
     async insertFolder(path: string, folderName: string) {
-      const { createFolder }: { createFolder: Message } = await runMutation(
+      const result = await runMutation<{ createFolder?: Message }>(
         CreateFolder,
         { folder: folderName, path: path },
       );
+      const createFolder = result?.createFolder;
+      if (!createFolder) {
+        return { success: false, message: "unknownError" };
+      }
       if (createFolder.enum) {
         this.getFoldersAgain = true;
       }
@@ -104,10 +108,14 @@ export const useFiles = defineStore(id, {
     },
 
     async renameFolder(path: string, newName: string) {
-      const { renameFolder }: { renameFolder: Message } = await runMutation(
+      const result = await runMutation<{ renameFolder?: Message }>(
         RenameFolder,
         { path, newName },
       );
+      const renameFolder = result?.renameFolder;
+      if (!renameFolder) {
+        return { success: false, message: "unknownError" };
+      }
       if (renameFolder.enum) {
         this.getFoldersAgain = true;
       }
@@ -118,10 +126,13 @@ export const useFiles = defineStore(id, {
     },
 
     async excludeItem(path: string) {
-      const { deleteItem }: { deleteItem: Message } = await runMutation(
-        DeleteItem,
-        { path: path },
-      );
+      const result = await runMutation<{ deleteItem?: Message }>(DeleteItem, {
+        path: path,
+      });
+      const deleteItem = result?.deleteItem;
+      if (!deleteItem) {
+        return { success: false, message: "unknownError" };
+      }
       if (deleteItem.enum) {
         this.getFoldersAgain = true;
       }

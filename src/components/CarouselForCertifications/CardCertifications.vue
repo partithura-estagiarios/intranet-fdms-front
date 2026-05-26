@@ -126,9 +126,10 @@ const getFolderIcon = (name: string) => {
   return selectedTab.value === name ? "folder_open" : "folder";
 };
 async function loadCertifications() {
-  const { loadCertifications }: { loadCertifications: string[] } =
-    await runQuery(LoadCertifications);
-  imgsStorage.setFoldersCertifications(loadCertifications);
+  const result = await runQuery<{ loadCertifications?: string[] }>(
+    LoadCertifications,
+  );
+  imgsStorage.setFoldersCertifications(result?.loadCertifications ?? []);
 }
 
 onMounted(async () => {

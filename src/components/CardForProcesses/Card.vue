@@ -18,17 +18,19 @@ import { useFiles } from "../../stores/files";
 const fileStorage = useFiles();
 
 onMounted(async () => {
-  const { getAllFolders }: { getAllFolders: FileSystemItem[] } =
-    await runQuery(GetAllFolders);
-  fileStorage.setAllFolders(getAllFolders);
+  const result = await runQuery<{ getAllFolders?: FileSystemItem[] }>(
+    GetAllFolders,
+  );
+  fileStorage.setAllFolders(result?.getAllFolders ?? []);
   fileStorage.resetSelectedFields();
 });
 
 watchEffect(async () => {
   if (fileStorage.getFoldersAgain) {
-    const { getAllFolders }: { getAllFolders: FileSystemItem[] } =
-      await runQuery(GetAllFolders);
-    fileStorage.setAllFolders(getAllFolders);
+    const result = await runQuery<{ getAllFolders?: FileSystemItem[] }>(
+      GetAllFolders,
+    );
+    fileStorage.setAllFolders(result?.getAllFolders ?? []);
     fileStorage.getFoldersAgain = false;
   }
 });
