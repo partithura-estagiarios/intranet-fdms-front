@@ -1,6 +1,6 @@
 <template>
   <q-btn
-    v-if="router.currentRoute.value.path != '/login'"
+    v-if="getUser.auth.isAdmin"
     color="white"
     icon="admin_panel_settings"
     flat
@@ -25,6 +25,8 @@ import { router } from "../../../modules";
 const userStorage = useUsers();
 
 const authIcon = computed(() => (userStorage.getToken ? "logout" : "login"));
+
+const getUser = computed(() => userStorage.stateUser);
 
 function handleAuthClick() {
   if (userStorage.getToken) {

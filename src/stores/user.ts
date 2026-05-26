@@ -8,7 +8,14 @@ import { Auth } from "../entities/login";
 const id = "users";
 
 const userStorage = {
-  auth: { id: "", name: "", password: "", email: "", token: "" },
+  auth: {
+    id: "",
+    name: "",
+    password: "",
+    email: "",
+    token: "",
+    isAdmin: null,
+  },
 };
 
 const Register = `
@@ -39,7 +46,6 @@ export const useUsers = defineStore(id, {
   actions: {
     getUser: async (form: User): Promise<Auth> => {
       const userData = await runQuery<Auth>(GetUser, {
-        name: form.labelInputName!,
         password: form.labelInputPassword!,
         email: form.labelEmail!,
       });

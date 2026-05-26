@@ -166,7 +166,4 @@ const filteredUsers = computed(() => {
     return match;
   });
 });
-const props = defineProps({
-  users: { type: Array },
-});
 </script>

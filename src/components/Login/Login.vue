@@ -48,6 +48,7 @@ interface Auth {
     name: string;
     token: string;
     id: string;
+    isAdmin: boolean;
   };
 }
 

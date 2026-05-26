@@ -5,5 +5,6 @@ query GetUser($password: String!, $email: String!) {
     password
     email
     token
+    isAdmin
   }
 }
