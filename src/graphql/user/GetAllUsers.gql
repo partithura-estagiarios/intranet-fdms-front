@@ -1,0 +1,9 @@
+query GetAllUsers {
+  users {
+    id
+    name
+    email
+    isAdmin
+    ramal_number
+  }
+}

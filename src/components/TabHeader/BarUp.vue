@@ -1,6 +1,6 @@
 <template>
   <q-toolbar :class="toolbarClass">
-    <q-btn flat to="/home" class="q-py-sm q-px-md self-center">
+    <q-btn flat to="/home" class="self-center q-px-md q-py-sm">
       <img :src="logo" class="logo-img" />
     </q-btn>
 
@@ -22,10 +22,11 @@
           :label="$t(`tab.${item.label}`)"
         />
       </q-tabs>
+
       <BtDropDocSig />
     </div>
 
-    <div class="row self-center q-py-md q-px-sm">
+    <div class="self-center q-px-sm q-py-md row">
       <BtDropSet />
     </div>
   </q-toolbar>

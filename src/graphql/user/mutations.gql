@@ -2,5 +2,10 @@ mutation Register($newUser: NewUser!) {
   register(newUser: $newUser) {
     success
     message
+    data {
+      name
+      email
+      isAdmin
+    }
   }
 }

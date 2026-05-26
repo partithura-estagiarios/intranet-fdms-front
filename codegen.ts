@@ -1,7 +1,6 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
-const schema =
-  process.env.VITE_GRAPHQL_API_URL || "http://0.0.0.0:8989/graphql";
+const schema = process.env.VITE_GRAPHQL_API_URL || "http://localhost:3500/";
 
 const config: CodegenConfig = {
   overwrite: true,

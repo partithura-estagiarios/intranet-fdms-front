@@ -2,6 +2,16 @@
   <q-btn
     v-if="router.currentRoute.value.path != '/login'"
     color="white"
+    icon="admin_panel_settings"
+    flat
+    size="1.5rem"
+    to="/admin-settings"
+  >
+    <q-tooltip> Configurações de administrador</q-tooltip>
+  </q-btn>
+  <q-btn
+    v-if="router.currentRoute.value.path != '/login'"
+    color="white"
     :icon="authIcon"
     flat
     size="1.5rem"
