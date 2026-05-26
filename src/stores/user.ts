@@ -1,11 +1,39 @@
 import { defineStore } from "pinia";
 import GetUser from "../graphql/user/queries.gql";
 import GetAllUsers from "../graphql/user/GetAllUsers.gql";
+import DeleteUser from "../graphql/user/DeleteUser.gql";
 
 import { User } from "../entities/login";
 import { router } from "../modules";
 import { Auth } from "../entities/login";
 const id = "users";
+
+async function runMutation<T>(
+  mutationQuery: string,
+  variables?: any,
+): Promise<T> {
+  const token = useUsers().stateUser.auth.token;
+
+  const response = await fetch("http://localhost:3500/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+    },
+    body: JSON.stringify({
+      query: mutationQuery,
+      variables: variables,
+    }),
+  });
+
+  const json = await response.json();
+
+  if (json.errors) {
+    throw new Error(json.errors[0].message);
+  }
+
+  return json.data;
+}
 
 const userStorage = {
   auth: {
@@ -15,8 +43,19 @@ const userStorage = {
     email: "",
     token: "",
     isAdmin: null,
+    ramal_number: null,
+    user_registration: null,
   },
 };
+
+const DeleteUserMutation = `
+  mutation DeleteUser($id: ID!) {
+    deleteUser(deleteUserId: $id) {
+      success
+      message
+    }
+  }
+`;
 
 const Register = `
   mutation Register($newUser: NewUser!) {
@@ -56,34 +95,14 @@ export const useUsers = defineStore(id, {
       return data.users;
     },
 
+    deleteUser: async (id: string) => {
+      const data = await runMutation<{
+        deleteUser: { success: boolean; message: string };
+      }>(DeleteUserMutation, { id });
+      return data.deleteUser;
+    },
+
     AddNewUser: async (userData: any) => {
-      async function runMutation<T>(
-        mutationQuery: string,
-        variables?: any,
-      ): Promise<T> {
-        const token = userStorage.auth.token;
-
-        const response = await fetch("http://localhost:3500/graphql", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-          body: JSON.stringify({
-            query: mutationQuery,
-            variables: variables,
-          }),
-        });
-
-        const json = await response.json();
-
-        if (json.errors) {
-          throw new Error(json.errors[0].message);
-        }
-
-        return json.data;
-      }
-
       const data = await runMutation<{
         register: { success: boolean; message: string };
       }>(Register, {
