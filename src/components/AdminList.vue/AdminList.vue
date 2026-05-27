@@ -76,7 +76,16 @@
           </div>
         </div>
 
-        <q-btn round flat icon="delete" @click="deleteUser(user)" />
+        <q-btn
+          round
+          flat
+          :icon="confirmDeleteId === user.id ? 'check' : 'delete'"
+          @click="
+            confirmDeleteId === user.id
+              ? deleteUser(user.id)
+              : (confirmDeleteId = user.id)
+          "
+        />
       </q-item>
     </q-list>
   </q-card>
@@ -126,9 +135,13 @@ const onSubmit = async () => {
     ramal_number: Number(data.ramal_number),
     user_registration: 0,
   };
-  await user.AddNewUser(dataToSend);
-
-  data.users = await user.getAllUsers();
+  try {
+    await user.AddNewUser(dataToSend);
+    data.users = await user.getAllUsers();
+    positiveNotify("Usuário adicionado com successo");
+  } catch (error) {
+    negativeNotify(error);
+  }
 
   data.name = "";
   data.email = "";
@@ -137,10 +150,15 @@ const onSubmit = async () => {
   alert.value = false;
 };
 
-const deleteUser = async (userData) => {
-  const userId = userData.id;
-  await user.deleteUser(userId);
-  data.users = await user.getAllUsers();
+const deleteUser = async (userId) => {
+  try {
+    await user.deleteUser(userId);
+    data.users = await user.getAllUsers();
+    confirmDeleteId.value = null;
+    return positiveNotify("Usuário deletado com successo");
+  } catch {
+    return negativeNotify("Erro ao deletar um usuário");
+  }
 };
 
 onMounted(async () => {
@@ -149,6 +167,7 @@ onMounted(async () => {
 
 const search = ref("");
 const alert = ref(false);
+const confirmDeleteId = ref(null);
 
 const avatarColors = ["primary", "secondary", "accent", "positive", "negative"];
 const avatarColor = (i) => avatarColors[i % avatarColors.length];
