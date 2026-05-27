@@ -60,7 +60,7 @@ const layout = computed(() => getLayout());
 const isCiron = computed(() => layout.value === "CIRON");
 
 const backgroundSrc = computed(() =>
-  isCiron.value ? "/INTRANET_CIRON.png" : "/INTRANET_FUNDIMISA.png",
+  isCiron.value ? "" : "/INTRANET_FUNDIMISA.avif",
 );
 
 const logoSrc = computed(() =>

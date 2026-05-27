@@ -10,7 +10,7 @@
 const layout = computed(() => getLayout());
 
 const backgroundSrc = computed(() =>
-  layout.value === "CIRON" ? "/WELCOME_CIRON.png" : "/WELCOME_INTRANET.png",
+  layout.value === "CIRON" ? "/WELCOME_CIRON.png" : "/WELCOME_INTRANET.avif",
 );
 </script>
 

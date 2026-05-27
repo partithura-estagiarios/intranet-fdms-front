@@ -8,7 +8,7 @@ const layout = computed(() => getLayout());
 const backgroundSrc = computed(() =>
   layout.value === "CIRON"
     ? "/BACKGROUND_CIRON.png"
-    : "/INTRANET_BACKGROUND_ FUNDIMISA.png",
+    : "/INTRANET_BACKGROUND_ FUNDIMISA.avif",
 );
 </script>
 
