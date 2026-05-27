@@ -1,0 +1,3 @@
+<template>
+  <PAdminSettings></PAdminSettings>
+</template>

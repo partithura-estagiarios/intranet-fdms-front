@@ -1,0 +1,12 @@
+mutation editUsers($userId: ID!, $userData: editUser!) {
+  editUsers(userId: $userId, userData: $userData) {
+    message
+    success
+    data {
+      email
+      id
+      name
+      isAdmin
+    }
+  }
+}
