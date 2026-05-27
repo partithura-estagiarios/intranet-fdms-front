@@ -8,13 +8,16 @@ import { router } from "../modules";
 import { Auth } from "../entities/login";
 const id = "users";
 
+const API_URL =
+  import.meta.env.VITE_APP_ENDPOINT || "http://localhost:3500/graphql";
+
 async function runMutation<T>(
   mutationQuery: string,
   variables?: any,
 ): Promise<T> {
   const token = useUsers().stateUser.auth.token;
 
-  const response = await fetch("http://localhost:3500/graphql", {
+  const response = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
