@@ -1,6 +1,6 @@
 <template>
   <div
-    class="row q-pb-xl"
+    class="q-pb-xl row"
     :class="$q.screen.lt.lg ? 'justify-between' : 'justify-center'"
   >
     <div v-for="item in systemStorage.getSistemas">
@@ -33,7 +33,7 @@
             />
           </q-avatar>
         </q-item-section>
-        <div class="label text-start row">
+        <div class="text-start label row">
           <q-item>
             <q-item-section>
               <q-item-label
