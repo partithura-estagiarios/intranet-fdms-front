@@ -15,14 +15,14 @@
             <q-chip
               size="sm"
               outline
-              :color="user.isAdmin ? 'positive' : 'secondary'"
+              :color="isUserAdmin(user).color"
               class="flex"
             >
-              {{ user.isAdmin ? "Admin" : "Usuário" }}
+              {{ isUserAdmin(user).name }}
             </q-chip>
           </div>
           <div class="text-grey text-subtitle1">
-            {{ user.email + " • " + user.ramal_number }}
+            {{ emailRamalTemplate(user) }}
           </div>
         </div>
       </div>
@@ -56,6 +56,16 @@ const confirmDelete = (userId) => {
   props.confirmDeleteId === userId
     ? emit("deleteUser", userId)
     : emit("updateConfirmDeleteId", userId);
+};
+
+const emailRamalTemplate = (user) => {
+  return user.email + " • " + user.ramal_number;
+};
+const isUserAdmin = (user) => {
+  return {
+    name: user.isAdmin ? "Admin" : "Usuário",
+    color: user.isAdmin ? "positive" : "secondary",
+  };
 };
 
 const filteredUsers = computed(() => {
