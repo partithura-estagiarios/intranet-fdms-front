@@ -14,6 +14,7 @@ declare module 'vue' {
     AddItemModal: typeof import('./components/CardForProcesses/SubComponents/AddItemModal.vue')['default']
     AddScheduleRoom: typeof import('./components/Schedule/addScheduleRoom/AddScheduleRoom.vue')['default']
     AdminList: typeof import('./components/AdminList.vue/AdminList.vue')['default']
+    AdminListItems: typeof import('./components/AdminList.vue/AdminListItems.vue')['default']
     AllEventsInMonth: typeof import('./components/Schedule/CardGridMonths/CardAllEventsInMonth/AllEventsInMonth.vue')['default']
     BackgroundIntranet: typeof import('./components/Image/BackgroundIntranet.vue')['default']
     BadgeEvents: typeof import('./components/Schedule/ScheduleRoom/BadgeEvents.vue')['default']

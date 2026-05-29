@@ -35,7 +35,6 @@
         </q-card>
       </q-dialog>
     </div>
-
     <q-input
       v-model="search"
       dense
@@ -47,74 +46,20 @@
         <q-icon name="search" />
       </template>
     </q-input>
-
-    <q-list>
-      <q-item
-        class="flex items-center"
-        v-for="(user, index) in filteredUsers"
-        :key="user.email"
-      >
-        <div class="items-center row q-gutter-x-sm" style="flex: 1">
-          <q-avatar :color="avatarColor(index)" text-color="white" size="42px">
-            {{ initials(user.name) }}
-          </q-avatar>
-          <div class="text-black text-left">
-            <div class="text-body1 text-weight-medium">
-              {{ user.name }}
-              <q-chip
-                size="sm"
-                outline
-                :color="user.isAdmin ? 'positive' : 'secondary'"
-                class="flex"
-              >
-                {{ user.isAdmin ? "Admin" : "Usuário" }}
-              </q-chip>
-            </div>
-            <div class="text-grey text-subtitle1">
-              {{ user.email + " • " + user.ramal_number }}
-            </div>
-          </div>
-        </div>
-
-        <q-btn
-          round
-          flat
-          :icon="confirmDeleteId === user.id ? 'check' : 'delete'"
-          @click="
-            confirmDeleteId === user.id
-              ? deleteUser(user.id)
-              : (confirmDeleteId = user.id)
-          "
-        />
-      </q-item>
-    </q-list>
+    <AdminListItems
+      :confirm-delete-id="confirmDeleteId"
+      @delete-user="deleteUser($event)"
+      @update-confirm-delete-id="confirmDeleteId = $event"
+      v-model="search"
+      :users="data.users"
+    />
   </q-card>
 </template>
 <script setup>
-const user = useUsers();
+import AdminListItems from "./AdminListItems.vue";
+import { formFields } from "./lib";
 
-const formFields = [
-  {
-    key: "name",
-    placeholder: "Nome",
-    type: "text",
-  },
-  {
-    key: "email",
-    placeholder: "Email",
-    type: "text",
-  },
-  {
-    key: "password",
-    placeholder: "Senha",
-    type: "password",
-  },
-  {
-    key: "ramal_number",
-    placeholder: "Ramal",
-    type: "number",
-  },
-];
+const user = useUsers();
 
 const data = reactive({
   users: [],
@@ -125,6 +70,10 @@ const data = reactive({
   isAdmin: true,
   ramal_number: null,
 });
+
+const search = ref("");
+const alert = ref(false);
+const confirmDeleteId = ref(null);
 
 const onSubmit = async () => {
   const dataToSend = {
@@ -163,33 +112,5 @@ const deleteUser = async (userId) => {
 
 onMounted(async () => {
   data.users = await user.getAllUsers();
-});
-
-const search = ref("");
-const alert = ref(false);
-const confirmDeleteId = ref(null);
-
-const avatarColors = ["primary", "secondary", "accent", "positive", "negative"];
-const avatarColor = (i) => avatarColors[i % avatarColors.length];
-
-const initials = (name) => {
-  const parts = name.trim().split(" ");
-  return parts[0][0].toUpperCase();
-};
-
-const filteredUsers = computed(() => {
-  if (!Array.isArray(data.users)) return [];
-
-  const list = !search.value
-    ? [...data.users]
-    : data.users.filter((u) => {
-        const searchTerm = search.value.toLowerCase();
-        return (
-          u.name?.toLowerCase().includes(searchTerm) ||
-          u.email?.toLowerCase().includes(searchTerm)
-        );
-      });
-
-  return list.reverse();
 });
 </script>
