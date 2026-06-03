@@ -1,5 +1,3 @@
-import { link } from "fs";
-
 export interface System {
   system_id: String;
   icon: String;

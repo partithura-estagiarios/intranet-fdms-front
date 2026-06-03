@@ -29,9 +29,9 @@ export const avatarColors = [
   "negative",
 ];
 
-export const avatarColor = (i) => avatarColors[i % avatarColors.length];
+export const avatarColor = (i: number) => avatarColors[i % avatarColors.length];
 
-export const initials = (name) => {
+export const initials = (name: string) => {
   const parts = name.trim().split(" ");
   return parts[0][0].toUpperCase();
 };

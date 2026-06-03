@@ -36,21 +36,10 @@
 </template>
 
 <script setup lang="ts">
-import { User } from "../../entities/login";
+import { User, Auth } from "../../entities/login";
 import { useUsers } from "../../stores/user";
 
 const router = useRouter();
-
-interface Auth {
-  auth: {
-    email: string;
-    password: string;
-    name: string;
-    token: string;
-    id: string;
-    isAdmin: boolean;
-  };
-}
 
 const userStorage = useUsers();
 const { t } = useI18n();
