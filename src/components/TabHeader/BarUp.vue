@@ -41,7 +41,7 @@ const tab = ref("home");
 const layout = computed(() => getLayout());
 
 const logo = computed(() =>
-  layout.value === "CIRON" ? "/LOGO_CIRON.png" : "/ico/LOGO_FUNDIMISA.png",
+  layout.value === "CIRON" ? "/ciron_logo.svg" : "/fundimisa_logo.svg",
 );
 
 const toolbarClass = computed(() => [

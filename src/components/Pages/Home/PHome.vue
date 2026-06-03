@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-img :src="backgroundSrc" />
+    <q-img fetchpriority="high" loading="lazy" :src="backgroundSrc" />
     <Separator :texto="$t('text.systems')" />
     <Item sistema="gestao" class="item-gestao" />
   </div>

@@ -38,7 +38,7 @@ async function runMutation<T>(
   return json.data;
 }
 
-const userStorage = {
+const userStorage: Auth = {
   auth: {
     id: "",
     name: "",
