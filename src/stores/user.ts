@@ -6,10 +6,11 @@ import DeleteUser from "../graphql/user/DeleteUser.gql";
 import { User } from "../entities/login";
 import { router } from "../modules";
 import { Auth } from "../entities/login";
+import { runQuery } from "../helpers/api";
+import { getEnvironmentVariable } from "../helpers";
 const id = "users";
 
-const API_URL =
-  import.meta.env.VITE_APP_ENDPOINT || "http://localhost:3500/graphql";
+const API_URL = getEnvironmentVariable("VITE_APP_ENDPOINT");
 
 async function runMutation<T>(
   mutationQuery: string,
