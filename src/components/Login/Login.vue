@@ -34,9 +34,12 @@
     <div class="row">
       <q-card class="justify-center shadow-1 my-card q-pa-xl bordered">
         <q-card-section vertical class="q-gutter-md" align="center">
-          <q-avatar rounded size="150px">
-            <img :src="logoSrc" />
-          </q-avatar>
+          <img
+            class="w-20"
+            :class="isCiron ? '' : 'w-25 h-25'"
+            :src="logoSrc"
+          />
+
           <p class="text-black text-bold text-h4">{{ titleText }}</p>
         </q-card-section>
         <q-card-section vertical class="q-gutter-md" align="center">
