@@ -27,6 +27,7 @@
         </div>
       </div>
 
+      <q-btn round flat icon="edit" @click="getUserId(user.id)" />
       <q-btn
         round
         flat
@@ -35,9 +36,37 @@
       />
     </q-item>
   </q-list>
+
+  <q-dialog v-model="alert">
+    <q-card style="width: 500px" class="text-black">
+      <q-card-section>
+        <div class="text-h6">Edição Administrador</div>
+      </q-card-section>
+      <q-form greedy @submit.prevent="onEditUsers">
+        <q-card-section>
+          <q-input
+            :label="input.placeholder"
+            v-for="input in filteredFields"
+            v-model="data[input.key]"
+            class="mb-3"
+            :rules="getInputRules(input)"
+            outlined
+            :type="input.type"
+          >
+          </q-input>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="SALVAR" type="submit" color="primary" />
+        </q-card-actions>
+      </q-form>
+    </q-card>
+  </q-dialog>
 </template>
 <script setup>
 import { avatarColor, initials } from "./lib";
+import { formFields } from "./lib";
+
 const props = defineProps({
   users: {
     type: Object,
@@ -47,10 +76,77 @@ const props = defineProps({
     type: String,
   },
 });
+const emit = defineEmits([
+  "deleteUser",
+  "updateConfirmDeleteId",
+  "updateUsers",
+]);
+
+const user = useUsers();
+const alert = ref(false);
+const userIdValue = ref(null);
+const users = ref([]);
+
+const data = reactive({
+  name: "",
+  email: "",
+  password: "",
+});
+
+const getUserId = (userId) => {
+  userIdValue.value = userId;
+
+  const currentUser = props.users.find((u) => u.id === userId);
+
+  if (currentUser) {
+    data.name = currentUser.name || "";
+    data.email = currentUser.email || "";
+    data.password = "";
+    alert.value = true;
+  }
+};
+
+const onEditUsers = async () => {
+  const originalUser = props.users.find((u) => u.id === userIdValue.value);
+
+  if (!originalUser) return;
+
+  const dataToEdit = {};
+
+  if (data.name && data.name !== originalUser.name) {
+    dataToEdit.name = data.name;
+  }
+
+  if (data.email && data.email !== originalUser.email) {
+    dataToEdit.email = data.email;
+  }
+
+  if (data.password && data.password.trim() !== "") {
+    dataToEdit.password = data.password;
+  }
+
+  if (Object.keys(dataToEdit).length === 0) {
+    positiveNotify("Nenhuma alteração foi realizada.");
+    alert.value = false;
+    return;
+  }
+
+  try {
+    await user.editUser(userIdValue.value, dataToEdit);
+    users.value = await user.getAllUsers();
+    emit("updateUsers", users.value);
+    positiveNotify("Usuário editado com sucesso");
+  } catch (error) {
+    negativeNotify(error);
+  }
+
+  data.name = "";
+  data.email = "";
+  data.password = "";
+  alert.value = false;
+};
 
 const search = defineModel();
-
-const emit = defineEmits(["deleteUser", "updateConfirmDeleteId"]);
 
 const confirmDelete = (userId) => {
   props.confirmDeleteId === userId
@@ -83,4 +179,19 @@ const filteredUsers = computed(() => {
 
   return list.reverse();
 });
+
+const filteredFields = computed(() =>
+  formFields.filter((x) => x.key != "ramal_number"),
+);
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const getInputRules = (input) => {
+  if (input.key === "email") {
+    return [
+      (val) => !!val || "O e-mail é obrigatório",
+      (val) => emailRegex.test(val) || "Por favor, insira um e-mail válido",
+    ];
+  }
+};
 </script>

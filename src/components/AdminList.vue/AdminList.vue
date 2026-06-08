@@ -35,13 +35,7 @@
         </q-card>
       </q-dialog>
     </div>
-    <q-input
-      v-model="search"
-      dense
-      outlined
-      placeholder="Buscar por nome ou e-mail..."
-      class="q-mb-md"
-    >
+    <q-input v-model="search" dense outlined class="q-mb-md">
       <template #prepend>
         <q-icon name="search" />
       </template>
@@ -50,6 +44,7 @@
       :confirm-delete-id="confirmDeleteId"
       @delete-user="deleteUser($event)"
       @update-confirm-delete-id="confirmDeleteId = $event"
+      @update-users="data.users = $event"
       v-model="search"
       :users="data.users"
     />

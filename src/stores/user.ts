@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import GetUser from "../graphql/user/queries.gql";
 import GetAllUsers from "../graphql/user/GetAllUsers.gql";
 import DeleteUser from "../graphql/user/DeleteUser.gql";
+import EditUsers from "../graphql/user/EditUsers.gql";
+import { print } from "graphql";
 
 import { User } from "../entities/login";
 import { router } from "../modules";
@@ -106,9 +108,33 @@ export const useUsers = defineStore(id, {
       return data.deleteUser;
     },
 
+    editUser: async (
+      id: string,
+      userEditData: { name?: string; password?: string; email?: string },
+    ) => {
+      const data = await runMutation<{
+        editUsers: {
+          success: boolean;
+          message: string;
+          data: {
+            id: string;
+            name: string;
+            email: string;
+            ramal_number: number;
+          };
+        };
+      }>(print(EditUsers), { userId: id, userData: userEditData });
+
+      return data.editUsers;
+    },
+
     AddNewUser: async (userData: any) => {
       const data = await runMutation<{
-        register: { success: boolean; message: string };
+        register: {
+          success: boolean;
+          message: string;
+          data: { name: string; isAdmin: boolean; email: string };
+        };
       }>(Register, {
         newUser: userData,
       });
