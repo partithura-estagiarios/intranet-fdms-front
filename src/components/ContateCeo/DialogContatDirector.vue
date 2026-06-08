@@ -1,60 +1,60 @@
 <template>
-  <div>
-    <q-dialog v-model="props.open" persistent>
-      <q-card>
-        <q-form @submit.prevent.stop>
-          <q-card-section
-            class="custom-color font-custom row text-white justify-between"
-          >
-            <div class="q-pa-md text-h5">
-              {{ $t("emailDirector.contactTheDirector") }}
-            </div>
-            <q-icon
-              name="close"
-              class="pt-2 cursor-pointer"
-              size="45px"
-              @click="$emit('close')"
-            />
-          </q-card-section>
+  <q-dialog v-model="props.open" persistent>
+    <q-card>
+      <q-form @submit.prevent.stop>
+        <q-card-section
+          class="justify-between font-custom text-white custom-color row"
+        >
+          <div class="text-h5 q-pa-md">
+            {{ $t("emailDirector.contactTheDirector") }}
+          </div>
+          <q-icon
+            name="close"
+            class="pt-2 cursor-pointer"
+            size="45px"
+            @click="$emit('close')"
+          />
+        </q-card-section>
 
-          <q-card-section class="row justify-between no-wrap overflow-hidden">
-            <div class="pr-12 col-7">
-              <q-input
-                class="no-padding"
-                v-model="label.name"
-                :label="$t(`emailDirector.name`)"
-                type="text"
-              />
-            </div>
-            <div class="pl-12 col-5">
-              <q-input
-                v-model.number="label.registration"
-                :label="$t(`emailDirector.registration`)"
-                type="number"
-              />
-            </div>
-          </q-card-section>
-          <q-card-section>
+        <q-card-section
+          class="justify-between gap-3 overflow-hidden row no-wrap"
+        >
+          <div class="col-7">
             <q-input
-              v-model="label.email"
-              :label="$t(`emailDirector.describeYourContact`)"
-              type="textarea"
-              :rules="[verifyEmail]"
+              class="no-padding"
+              v-model="label.name"
+              :label="$t(`emailDirector.name`)"
+              type="text"
             />
-          </q-card-section>
-          <q-card-section align="right">
-            <q-btn
-              flat
-              :label="$t('emailDirector.save')"
-              class="text-green font-custom"
-              @click="sendEmail"
-              type="submit"
-            ></q-btn>
-          </q-card-section>
-        </q-form>
-      </q-card>
-    </q-dialog>
-  </div>
+          </div>
+          <div class="col-5">
+            <q-input
+              v-model.number="label.registration"
+              :label="$t(`emailDirector.registration`)"
+              type="number"
+            />
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <q-input
+            v-model="label.email"
+            :label="$t(`emailDirector.describeYourContact`)"
+            type="textarea"
+            :rules="[verifyEmail]"
+          />
+        </q-card-section>
+        <q-card-section align="right">
+          <q-btn
+            flat
+            :label="$t('emailDirector.save')"
+            class="font-custom text-green"
+            @click="sendEmail"
+            type="submit"
+          ></q-btn>
+        </q-card-section>
+      </q-form>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -105,7 +105,7 @@ watchEffect(() => {
 </script>
 <style scoped>
 .custom-color {
-  background-color: rgb(31, 73, 125);
+  background-color: rgb(42, 42, 42);
 }
 .font-custom {
   font-family: Fira Sans;

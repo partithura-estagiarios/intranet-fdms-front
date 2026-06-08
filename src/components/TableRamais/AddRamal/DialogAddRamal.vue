@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="props.open" persistent>
-    <q-card>
+    <q-card class="w-100">
       <q-form @submit="optionRamal">
         <q-card-section
           :class="[
@@ -12,7 +12,7 @@
             'text-white',
           ]"
         >
-          <div class="text-h5">{{ $t("text." + props.option) }}</div>
+          <div class="text-h5">{{ "Adicionar Setor" }}</div>
           <q-icon
             name="close"
             class="cursor-pointer"
@@ -21,40 +21,31 @@
           />
         </q-card-section>
         <div v-if="props.option != 'deleteRamal'">
-          <q-card-section>
+          <q-card-section class="flex flex-col gap-3">
             <q-input
-              white
               v-model="labelDefinite.sector"
-              :label="$t(`formRamal.nameOfRamal`)"
+              label="Nome do Setor"
+              type="text"
+              :rules="[(val) => validateNotEmpty(val)]"
+            />
+
+            <q-input
+              v-model="labelDefinite.number"
+              label="Numero do Setor"
+              type="number"
+              :rules="[(val) => validateNotEmpty(val)]"
+            />
+
+            <q-input
+              v-model="labelDefinite.name"
+              label="Usuario do Setor"
               type="text"
               :rules="[(val) => validateNotEmpty(val)]"
             />
           </q-card-section>
-
-          <q-card-section class="row justify-between no-wrap overflow-hidden">
-            <div class="pr-12 col-7">
-              <q-input
-                white
-                class="no-padding"
-                v-model="labelDefinite.number"
-                :label="$t(`formRamal.numberOfRamal`)"
-                type="number"
-                :rules="[(val) => validateNotEmpty(val)]"
-              />
-            </div>
-            <div class="pl-12 col-5">
-              <q-input
-                white
-                v-model="labelDefinite.name"
-                :label="$t(`formRamal.userOfRamal`)"
-                type="text"
-                :rules="[(val) => validateNotEmpty(val)]"
-              />
-            </div>
-          </q-card-section>
         </div>
         <div v-else>
-          <q-card-section class="text-grey font-custom">
+          <q-card-section class="font-custom text-grey">
             {{ $t("formRamal.deleteRamalMessage.mainMessage") }}
             {{ labelDefinite.number }}
             {{ $t("formRamal.deleteRamalMessage.auxMessage") }} {{
@@ -65,12 +56,7 @@
         </div>
         <q-card-actions
           align="right"
-          :class="[
-            'pt-12',
-            'pa-5',
-            'font-custom',
-            isCiron ? 'text-orange-14' : 'text-green-8',
-          ]"
+          :class="['font-custom', isCiron ? 'text-orange-14' : 'text-green-8']"
         >
           <q-btn flat :label="$t('formRamal.confirm')" type="submit" />
         </q-card-actions>

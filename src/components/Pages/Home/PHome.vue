@@ -16,8 +16,4 @@ const layout = computed(() => getLayout());
 const cironHeightImg = computed(() => (layout.value == "CIRON " ? "28em" : ""));
 </script>
 
-<style scoped>
-.item-gestao {
-  margin-top: -6rem;
-}
-</style>
+<style scoped></style>

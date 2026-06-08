@@ -312,7 +312,7 @@ onMounted(() => {
   width: 90rem;
   max-width: 95vw;
   height: 55rem;
-  margin-top: -7rem;
+  margin-top: -0.5rem;
   border-radius: 8px;
   overflow: hidden;
 }

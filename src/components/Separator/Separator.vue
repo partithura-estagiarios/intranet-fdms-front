@@ -3,7 +3,7 @@
   <img :src="separatorImage" :class="layout === 'CIRON' && 'separator-class'" />
   <h4 class="text-bold text-white position-text">
     {{ texto }}
-    <span v-if="userStorage.getToken" class="no-padding no-border">
+    <span v-if="userStorage.getToken" class="no-border no-padding">
       <ItemSystem v-if="router.fullPath === '/home'" />
       <IconOpts v-if="router.fullPath === '/institutional'" />
       <IconOptsCert v-if="router.fullPath === '/certifications'" />
@@ -52,5 +52,6 @@ const separatorClass = computed(() =>
   font-family: Fira Sans;
   bottom: 6.5rem;
   position: relative;
+  margin-bottom: -6.5rem;
 }
 </style>
