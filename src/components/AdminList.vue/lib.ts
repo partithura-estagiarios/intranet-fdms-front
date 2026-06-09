@@ -5,14 +5,14 @@ export const formFields = [
     type: "text",
   },
   {
-    key: "email",
-    placeholder: "Email",
-    type: "text",
-  },
-  {
     key: "password",
     placeholder: "Senha",
     type: "password",
+  },
+  {
+    key: "email",
+    placeholder: "Email",
+    type: "text",
   },
   {
     key: "ramal_number",

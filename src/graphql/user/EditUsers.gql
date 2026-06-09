@@ -1,12 +1,12 @@
-mutation editUsers($userId: ID!, $userData: editUser!) {
-  editUsers(userId: $userId, userData: $userData) {
+mutation EditUsers($userId: ID!, $userData: editUser) {
+  editUsers(id: $userId, userData: $userData) {
+    data {
+      ramal_number
+      name
+      id
+      email
+    }
     message
     success
-    data {
-      email
-      id
-      name
-      isAdmin
-    }
   }
 }
