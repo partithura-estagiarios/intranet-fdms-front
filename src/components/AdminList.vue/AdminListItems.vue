@@ -64,7 +64,7 @@
   </q-dialog>
 </template>
 <script setup>
-import { avatarColor, initials } from "./lib";
+import { avatarColor, initials, emailRegex } from "./lib";
 import { formFields } from "./lib";
 
 const props = defineProps({
@@ -183,8 +183,6 @@ const filteredUsers = computed(() => {
 const filteredFields = computed(() =>
   formFields.filter((x) => x.key != "ramal_number"),
 );
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const getInputRules = (input) => {
   if (input.key === "email") {
