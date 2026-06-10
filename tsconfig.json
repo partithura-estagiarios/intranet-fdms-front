@@ -27,7 +27,13 @@
     "types": ["vite-plugin-pages/client", "vite/client"]
   },
 
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/components/AdminList"
+  ],
   "exclude": ["node_modules", "vite-plugin-pages/client"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
