@@ -52,7 +52,7 @@
 </template>
 <script setup>
 import AdminListItems from "./AdminListItems.vue";
-import { formFields } from "./lib.js";
+import { formFields } from "./lib.ts";
 
 const user = useUsers();
 
