@@ -6,6 +6,6 @@
 .spacing-card {
   margin-inline: 12rem;
   position: relative;
-  margin-top: -7rem;
+  margin-top: -0.5rem;
 }
 </style>

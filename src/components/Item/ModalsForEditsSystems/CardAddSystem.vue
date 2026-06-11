@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="props.card">
-    <q-card class="my-card">
+    <q-card class="my-card w-full">
       <DialogHeader @close="(val) => emits('close')" :option="label" />
       <FormModalSystem @receveid="(val) => (form = val)" />
       <q-card-actions align="right">

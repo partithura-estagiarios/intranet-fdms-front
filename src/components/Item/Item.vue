@@ -1,9 +1,9 @@
 <template>
   <div
-    class="q-pb-xl row"
+    class="mt-5 row"
     :class="$q.screen.lt.lg ? 'justify-between' : 'justify-center'"
   >
-    <div v-for="item in systemStorage.getSistemas">
+    <div v-for="item in systemStorage.getSistemas" :key="item.system_id">
       <q-item
         :clickable="!systemStorage.getBadgeExclusion"
         @click="systemStorage.goToRoute(item.link)"
@@ -24,9 +24,10 @@
               floating
               v-if="systemStorage.getBadgeExclusion"
               :clickable="systemStorage.getBadgeExclusion"
-              @click="systemStorage.excludeSystemId(item.system_id)"
-              ><q-icon name="delete" size="sm"
-            /></q-badge>
+              @click.stop="systemStorage.excludeSystemId(item.system_id)"
+            >
+              <q-icon name="delete" size="sm" />
+            </q-badge>
             <q-icon
               :name="item.icon"
               :class="[accentClass, 'icon-partithura', 'q-py-md']"
@@ -46,10 +47,6 @@
               >
                 {{ item.label }}
               </q-item-label>
-              <DialogContatDirector
-                @close="systemStorage.openModalCeo = false"
-                :open="systemStorage.openModalCeo"
-              />
 
               <q-item-label
                 :class="[highlightClass, 'text-bold', 'text-h5', 'font-custom']"
@@ -62,6 +59,11 @@
       </q-item>
     </div>
   </div>
+
+  <DialogContatDirector
+    @close="systemStorage.openModalCeo = false"
+    :open="systemStorage.openModalCeo"
+  />
 </template>
 
 <script setup lang="ts">
@@ -70,7 +72,7 @@ import { useSystems } from "../../stores/system";
 const systemStorage = useSystems();
 const props = defineProps({
   sistema: {
-    type: String!,
+    type: String,
     required: true,
   },
 });

@@ -35,3 +35,5 @@ export const initials = (name: string) => {
   const parts = name.trim().split(" ");
   return parts[0][0].toUpperCase();
 };
+
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -52,7 +52,7 @@
 </template>
 <script setup>
 import AdminListItems from "./AdminListItems.vue";
-import { formFields } from "./lib";
+import { formFields } from "./lib.js";
 
 const user = useUsers();
 
@@ -65,6 +65,7 @@ const data = reactive({
   isAdmin: true,
   ramal_number: null,
 });
+//comentario teste
 
 const search = ref("");
 const alert = ref(false);

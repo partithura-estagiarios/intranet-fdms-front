@@ -38,7 +38,7 @@ const props = defineProps({
 </script>
 <style scoped>
 .custom-toolbar {
-  margin-top: -8rem;
+  margin-top: -1.5rem;
 }
 .custom-margin {
   margin-right: 15rem;

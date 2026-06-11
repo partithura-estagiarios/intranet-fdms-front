@@ -1,5 +1,5 @@
 <template>
-  <q-card-section class="row">
+  <q-card-section>
     <q-input
       v-model="formSystem.label"
       stack-label
@@ -9,12 +9,12 @@
     />
     <InputsIcons @receveid="(val) => (formSystem.icon = val)" />
   </q-card-section>
-  <q-card-section class="row">
+  <q-card-section class="">
     <q-input
       v-model="formSystem.sublabel"
       stack-label
-      :label="$t('text.subLabel')"
       class="q-px-md"
+      :label="$t('text.subLabel')"
       :rules="[(val) => (val && val.length > 0) || $t(`auth.fillField`)]"
     />
     <q-input
