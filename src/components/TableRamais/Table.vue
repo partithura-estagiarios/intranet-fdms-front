@@ -1,6 +1,6 @@
 <template>
   <Separator :texto="$t('tab.extensions')" />
-  <div class="q-px-md box-shadow q-mx-xl bg-white">
+  <div class="bg-white box-shadow q-mx-xl q-px-md">
     <HeaderRamais />
     <q-table
       :rows="ramaisStorage.getAllRamais || []"
@@ -47,6 +47,8 @@ import { Column } from "../../entities/column";
 
 const pagination = ref({
   rowsPerPage: pagesOfTable,
+
+  sortBy: "name",
 });
 const userStorage = useUsers();
 const ramaisStorage = useRamais();
