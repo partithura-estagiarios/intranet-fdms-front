@@ -17,8 +17,4 @@ const getImageUrl = (imageName: string) => {
 };
 </script>
 
-<style scoped>
-.size {
-  width: 33rem;
-}
-</style>
+<style scoped></style>

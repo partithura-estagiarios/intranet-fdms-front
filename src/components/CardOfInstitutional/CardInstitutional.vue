@@ -2,10 +2,10 @@
   <q-card
     :class="['my-card', 'shadow-2', 'bg-white', isCiron ? 'layout-ciron' : '']"
   >
-    <div class="row items-stretch full-height">
-      <div class="col-3 modern-sidebar column justify-between">
+    <div class="items-stretch row full-height">
+      <div class="justify-between col-3 modern-sidebar column">
         <div>
-          <div class="row items-center q-pa-md sidebar-header">
+          <div class="items-center row q-pa-md sidebar-header">
             <q-icon
               name="folder_shared"
               color="white"
@@ -13,7 +13,7 @@
               class="q-mr-sm"
             />
             <span
-              class="text-subtitle2 text-white text-weight-bolder text-uppercase"
+              class="text-subtitle2 text-weight-bolder text-white text-uppercase"
             >
               {{ $t("tab.folders") }}
             </span>
@@ -41,7 +41,7 @@
                 />
               </q-item-section>
               <q-item-section
-                class="text-uppercase text-center text-weight-bolder folder-title"
+                class="text-weight-bolder text-center text-uppercase folder-title"
               >
                 {{ name }}
               </q-item-section>
@@ -63,7 +63,7 @@
             @click="openAddFolderDialog"
           >
             <div
-              class="row items-center justify-center full-width q-gutter-x-sm"
+              class="justify-center items-center row full-width q-gutter-x-sm"
             >
               <q-icon name="add_circle_outline" size="sm" />
               <span class="text-weight-bold">{{ $t("action.addFolder") }}</span>
@@ -77,7 +77,7 @@
             class="full-width btn-delete-custom"
             @click="openDeleteFolderDialog"
           >
-            <div class="row items-center justify-center q-gutter-x-xs">
+            <div class="justify-center items-center row q-gutter-x-xs">
               <q-icon name="highlight_off" size="xs" />
               <span class="text-weight-bold">{{
                 $t("action.deleteFolder")
@@ -87,13 +87,13 @@
         </div>
       </div>
 
-      <div class="col-9 flex-content bg-white column items-center">
+      <div class="flex-content items-center bg-white col-9 column">
         <div
-          class="row full-width justify-end q-pa-sm bg-grey-1 border-bottom q-gutter-x-sm"
+          class="justify-end bg-grey-1 border-bottom row full-width q-pa-sm q-gutter-x-sm"
           v-if="isLogged && titleImg"
         >
           <q-btn unelevated dense class="btn-add-image" @click="triggerUpload">
-            <div class="row items-center justify-center q-gutter-x-xs">
+            <div class="justify-center items-center row q-gutter-x-xs">
               <q-icon name="add_circle_outline" size="xs" />
               <span class="text-weight-medium">{{
                 $t("action.addImage")
@@ -107,7 +107,7 @@
             class="btn-delete-item-custom"
             @click="openDeleteImgDialog"
           >
-            <div class="row items-center justify-center q-gutter-x-xs">
+            <div class="justify-center items-center row q-gutter-x-xs">
               <q-icon name="highlight_off" size="xs" />
               <span class="text-weight-medium">{{
                 $t("action.deleteFile")
@@ -118,7 +118,7 @@
 
         <div
           v-if="allFolders && allFolders.length > 0 && titleImg"
-          class="content-area full-width flex-grow"
+          class="flex-grow content-area full-width"
         >
           <ImgsInstitutional
             ref="imgsRef"
@@ -130,10 +130,10 @@
 
         <div
           v-else
-          class="text-grey-5 column items-center q-pa-xl empty-state flex-grow justify-center"
+          class="flex-grow justify-center items-center text-grey-5 column q-pa-xl empty-state"
         >
           <q-icon name="collections" size="xl" />
-          <span class="text-weight-bolder text-uppercase q-mt-md">{{
+          <span class="q-mt-md text-weight-bolder text-uppercase">{{
             $t("action.selectTheFolder")
           }}</span>
         </div>
@@ -141,8 +141,8 @@
     </div>
 
     <q-dialog v-model="showDeleteDialog" persistent>
-      <q-card class="dialog-delete-card bg-white text-black">
-        <q-card-section class="row items-center">
+      <q-card class="bg-white text-black dialog-delete-card">
+        <q-card-section class="items-center row">
           <q-icon name="warning" color="negative" size="md" />
           <span class="q-ml-sm text-weight-bold">
             {{ $t("action.deleteSureFile") }}
@@ -165,8 +165,8 @@
     </q-dialog>
 
     <q-dialog v-model="showDeleteImgDialog" persistent>
-      <q-card class="dialog-delete-card bg-white text-black">
-        <q-card-section class="row items-center">
+      <q-card class="bg-white text-black dialog-delete-card">
+        <q-card-section class="items-center row">
           <q-icon name="warning" color="negative" size="md" />
           <span class="q-ml-sm text-weight-bold">{{
             $t("action.deleteSureFile")
@@ -312,7 +312,7 @@ onMounted(() => {
   width: 90rem;
   max-width: 95vw;
   height: 55rem;
-  margin-top: -0.5rem;
+  margin-top: 1rem;
   border-radius: 8px;
   overflow: hidden;
 }
