@@ -29,16 +29,15 @@ const props = defineProps({
 });
 const layout = computed(() => getLayout());
 
-const separatorImage = computed(() =>
-  layout.value === "CIRON" || layout.value === "ELYTE"
-    ? "/SEPARATOR_CIRON.png"
-    : "/SEPARATOR.png",
-);
+const separatorImage = computed(() => {
+  if (layout.value === "CIRON") return "/SEPARATOR_CIRON.png";
+  if (layout.value === "ELYTE") return "/SEPARATOR-ELYTE.avif";
+  return "/SEPARATOR.png";
+});
 
 const separatorClass = computed(() => {
-  if (layout.value === "CIRON" || layout.value === "ELYTE")
-    return "color-separator-ciron-elyte";
-
+  if (layout.value === "CIRON") return "color-separator-ciron";
+  if (layout.value === "ELYTE") return "color-separator-elyte";
   return "color-separator";
 });
 </script>
@@ -48,8 +47,12 @@ const separatorClass = computed(() => {
   background-color: rgba(0, 152, 1, 255);
 }
 
-.color-separator-ciron-elyte {
+.color-separator-ciron {
   background-color: #ff5700;
+}
+
+.color-separator-elyte {
+  background-color: hsl(352.86deg 100% 50.59%);
 }
 
 .separator-class {
