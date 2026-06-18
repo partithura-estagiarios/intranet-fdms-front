@@ -3,7 +3,7 @@
     class="mt-5 row"
     :class="$q.screen.lt.lg ? 'justify-between' : 'justify-center'"
   >
-    <div v-for="item in systemStorage.getSistemas" :key="item.system_id">
+    <div v-for="item in showElyteSystems" :key="item.system_id">
       <q-item
         :clickable="!systemStorage.getBadgeExclusion"
         @click="systemStorage.goToRoute(item.link)"
@@ -80,12 +80,19 @@ const props = defineProps({
 const layout = computed(() => getLayout());
 
 const accentClass = computed(() =>
-  layout.value === "CIRON" ? "text-black" : "custom-color",
+  layout.value === "CIRON" ? "text-black" : "custom-color-label",
 );
 
 const highlightClass = computed(() =>
   layout.value === "CIRON" ? "text-orange-14" : "text-green",
 );
+const showElyteSystems = computed(() => {
+  if (layout.value === "ELYTE") {
+    return systemStorage.getSistemas.filter(
+      (x) => x.label == "Partithura" || x.label == "Ramais",
+    );
+  }
+});
 
 onMounted(async () => {
   systemStorage.loadSystems(props.sistema);
@@ -96,7 +103,7 @@ onMounted(async () => {
 .border-color {
   border: 8px solid currentColor;
 }
-.custom-color {
+.custom-color-label {
   color: rgb(31, 73, 125);
 }
 .font-custom {

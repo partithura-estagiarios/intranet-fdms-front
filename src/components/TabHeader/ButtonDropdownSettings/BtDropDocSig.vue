@@ -1,10 +1,11 @@
 <template>
   <q-btn
-    class="text-white font-custom text-h6"
+    class="font-custom text-h6 text-white"
     no-caps
     :label="$t('tab.gisDocumentation')"
     flat
     :class="tabClass()"
+    v-if="layout != 'ELYTE'"
   >
     <q-menu class="z-top text-black">
       <q-list>

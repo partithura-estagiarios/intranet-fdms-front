@@ -9,7 +9,7 @@
         v-model="tab"
         indicator-color="transparent"
         class="font-route-tab text-white"
-        v-for="item in tabItems"
+        v-for="item in tabItemsLayout"
       >
         <q-btn
           :class="tabClass(item.name)"
@@ -40,15 +40,25 @@ const tab = ref("home");
 
 const layout = computed(() => getLayout());
 
-const logo = computed(() =>
-  layout.value === "CIRON" ? "/ciron_logo.svg" : "/fundimisa_logo.svg",
-);
+const logo = computed(() => {
+  if (layout.value === "CIRON") return "/ciron_logo.svg";
+  if (layout.value === "ELYTE") return "/logo_elyte.svg";
+  return "/fundimisa_logo.svg";
+});
+
+const tabItemsLayout = computed(() => {
+  if (layout.value == "ELYTE") {
+    return tabItems.filter((x) => ["home", "ramais"].includes(x.name));
+  }
+
+  return tabItems;
+});
 
 const toolbarClass = computed(() => [
   "q-py-sm",
   "row",
   "justify-between",
-  layout.value === "CIRON" ? "bg-black" : "color-custom",
+  layoutsColors[layout.value],
 ]);
 
 function tabClass(itemName: string) {
