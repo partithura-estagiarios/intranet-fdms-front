@@ -1,7 +1,7 @@
 <template>
-  <div class="col-auto q-px-sm" :class="borderContainerClass">
+  <div class="q-px-sm" :class="borderContainerClass">
     <q-item
-      class="q-my-sm rounded-borders shadow-3"
+      class="shadow-3 q-my-sm rounded-borders"
       :class="itemBackgroundClass"
       clickable
       v-ripple
@@ -11,7 +11,7 @@
         <q-icon name="add_circle_outline" :color="iconColor" size="md" />
       </q-item-section>
 
-      <q-item-section :class="textClass">
+      <q-item-section class="ellipsis" :class="textClass">
         {{ $t("files.newItem") }}
       </q-item-section>
     </q-item>

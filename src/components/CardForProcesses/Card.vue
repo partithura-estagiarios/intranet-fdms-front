@@ -1,6 +1,6 @@
 <template>
   <div class="flex-center row">
-    <q-card class="flex my-card row">
+    <q-card class="flex my-card q-mt-lg row">
       <RootFolders />
 
       <SubFolders />
@@ -48,5 +48,20 @@ watchEffect(async () => {
   min-height: 600px;
   min-width: 1024px;
   overflow: hidden;
+}
+
+@media (max-width: 1023px) {
+  .my-card {
+    min-width: 0;
+    min-height: 0;
+    height: 70vh;
+  }
+}
+
+@media (max-width: 599px) {
+  .my-card {
+    height: auto;
+    overflow: visible;
+  }
 }
 </style>

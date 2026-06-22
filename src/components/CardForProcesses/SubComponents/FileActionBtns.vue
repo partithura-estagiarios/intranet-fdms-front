@@ -6,6 +6,7 @@
     >
       <q-btn
         v-if="hasSelectedItem"
+        no-wrap
         class="rounded-borders text-bold text-lowercase"
         icon="mdi-open-in-new"
         @click="$emit('open')"
@@ -14,6 +15,7 @@
       </q-btn>
       <q-btn
         v-if="hasSelectedItem"
+        no-wrap
         class="rounded-borders text-bold text-lowercase"
         icon="mdi-pencil"
         @click="$emit('edit')"
@@ -22,6 +24,7 @@
       </q-btn>
       <q-btn
         v-if="hasSelectedItem"
+        no-wrap
         class="rounded-borders text-bold text-lowercase"
         icon="mdi-delete"
         @click="$emit('delete')"
@@ -31,6 +34,7 @@
     </div>
     <q-btn
       v-if="useUser.getToken"
+      no-wrap
       class="q-my-sm rounded-borders bg-grey-3"
       v-ripple
       @click="$emit('add')"

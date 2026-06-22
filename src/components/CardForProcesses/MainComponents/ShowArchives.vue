@@ -1,5 +1,7 @@
 <template>
-  <q-card-section class="col column bg-grey-2 q-pa-none">
+  <q-card-section
+    class="bg-grey-2 col-12 col-sm column q-pa-none archives-section"
+  >
     <FileActionBtns
       :hasSelectedItem="!!selectedItem"
       @open="openPdf()"
@@ -9,7 +11,7 @@
     />
 
     <div
-      class="q-pa-sm bg-grey-2 text-grey-8 text-body2 flex items-center border-b"
+      class="flex items-center bg-grey-2 border-b text-body2 text-grey-8 q-pa-sm"
     >
       <q-icon name="folder_open" class="q-mr-sm" size="xs" />
       <span class="text-bold">{{ currentPath }}</span>
@@ -17,16 +19,20 @@
 
     <div
       v-if="showEmptyState"
-      class="flex col flex-center text-grey-6 column q-mt-xl"
+      class="flex flex-center q-mt-xl text-grey-6 col column"
     >
       <q-icon name="folder_open" size="4rem" />
-      <div class="text-h6 q-mt-sm">{{ $t("files.emptyFolderText") }}</div>
+      <div class="q-mt-sm text-h6">{{ $t("files.emptyFolderText") }}</div>
       <div class="text-body2">{{ $t("files.emptyFolderSubText") }}</div>
     </div>
 
     <div class="col q-pa-md scroll" v-else>
       <div class="row q-col-gutter-md">
-        <div class="col-3" v-for="pdf in pdfFiles" :key="pdf.path">
+        <div
+          class="col-6 col-sm-4 col-md-3"
+          v-for="pdf in pdfFiles"
+          :key="pdf.path"
+        >
           <PdfCard
             :pdf="pdf"
             :isSelected="selectedItem === pdf"
@@ -141,5 +147,17 @@ watch(path, (newPatch) => {
 }
 .dialog-size {
   width: 50vw;
+}
+
+@media (max-width: 1023px) {
+  .dialog-size {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 599px) {
+  .archives-section {
+    height: 50vh;
+  }
 }
 </style>
