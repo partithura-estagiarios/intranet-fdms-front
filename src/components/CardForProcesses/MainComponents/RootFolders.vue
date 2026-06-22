@@ -1,7 +1,7 @@
 <template>
   <q-card-section
+    class="col-12 col-sm-3 col-lg-2"
     :class="[
-      'col-2',
       'column',
       'q-pa-none',
       'container',
@@ -117,6 +117,13 @@ function isItemActive(path: string) {
   background-color: var(--q-dark);
 }
 
+/* phones: give the stacked pane a bounded height so its list scrolls */
+@media (max-width: 599px) {
+  .container {
+    height: 40vh;
+  }
+}
+
 .custom-scroll::-webkit-scrollbar {
   width: 6px;
 }
@@ -132,5 +139,12 @@ function isItemActive(path: string) {
 .dialog-size {
   width: 50vw;
   min-width: 400px;
+}
+
+@media (max-width: 1023px) {
+  .dialog-size {
+    width: 90vw;
+    min-width: 0;
+  }
 }
 </style>
