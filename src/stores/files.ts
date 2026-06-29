@@ -86,7 +86,7 @@ export const useFiles = defineStore(id, {
 
     displayPdf(filePath: string) {
       const pdfUrl = `${archivesBaseUrl}/serve-pdf/${filePath}`;
-      window.open(pdfUrl, "_blank");
+      window.open(`${pdfUrl}#toolbar=0`, "_blank");
     },
 
     async insertFolder(path: string, folderName: string) {
