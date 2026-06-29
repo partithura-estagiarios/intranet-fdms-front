@@ -1,7 +1,7 @@
 <template>
   <q-card-section
     v-if="hasRootFolderSelected"
-    class="bg-grey-1 col-3 column q-pa-none container"
+    class="bg-grey-1 col-12 col-sm-3 column q-pa-none container"
   >
     <div class="q-pa-sm col scroll">
       <q-item
@@ -167,10 +167,24 @@ function goBack() {
 .container {
   border-right: 1px solid #e0e0e0 !important;
 }
+
+@media (max-width: 599px) {
+  .container {
+    height: 40vh;
+    border-right: none !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+  }
+}
 .add-button-container {
   border-top: 1px solid rgba(44, 44, 44, 0.2);
 }
 .dialog-size {
   width: 50vw;
+}
+
+@media (max-width: 1023px) {
+  .dialog-size {
+    width: 90vw;
+  }
 }
 </style>

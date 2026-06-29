@@ -4,6 +4,7 @@ export const columns = [
     label: "columns.name",
     field: "name",
     align: "left",
+    sortable: true,
   },
   {
     name: "sector",
@@ -11,7 +12,12 @@ export const columns = [
     field: "sector",
     align: "center",
   },
-  { name: "number", label: "columns.number", field: "number", align: "center" },
+  {
+    name: "number",
+    label: "columns.number",
+    field: "number",
+    align: "center",
+  },
   {
     name: "icon",
     align: "right",
