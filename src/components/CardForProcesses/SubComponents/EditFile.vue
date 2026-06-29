@@ -63,23 +63,20 @@ const isButtonDisabled = computed(
 );
 
 async function saveFile() {
-  if (newFile.value) {
-    const lastBar = props.file.path.lastIndexOf("/");
-    const dirPath = props.file.path.slice(0, lastBar);
-    fileStorage.uploadFile(
-      identifier.value,
-      description.value,
-      dirPath,
-      newFile.value,
-      currentArchiveName.value,
-    );
-    return;
-  }
-  const response = await fileStorage.editFile(
-    props.file.path,
-    identifier.value,
-    description.value,
-  );
+  const response = newFile.value
+    ? await fileStorage.uploadFile(
+        identifier.value,
+        description.value,
+        props.file.path.slice(0, props.file.path.lastIndexOf("/")),
+        newFile.value,
+        currentArchiveName.value,
+      )
+    : await fileStorage.editFile(
+        props.file.path,
+        identifier.value,
+        description.value,
+      );
+
   notifyResponse(response);
 
   if (response.success) {

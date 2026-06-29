@@ -1,21 +1,21 @@
 <template>
   <div>
     <q-card-section class="column items-center q-pb-none">
-      <div class="text-grey-10 text-center text-body1 text-bold q-py-md">
+      <div
+        class="text-grey-10 text-center text-body1 text-bold q-py-md wrap-text"
+      >
         {{ text }}
       </div>
 
       <q-card class="item-visualization column items-center q-pa-md" flat>
         <q-icon :name="icon" color="amber" size="4rem" />
-        <div class="text-bold text-h6 q-mt-sm text-center">
+        <div class="text-bold text-h6 q-mt-sm text-center wrap-text">
           {{ item.identifier }}
         </div>
-        <div class="text-bold text-caption text-wrap text-center">
+        <div class="text-bold text-caption text-wrap text-center wrap-text">
           {{ item.description || item.name }}
         </div>
       </q-card>
-
-      div
     </q-card-section>
     <q-card-actions align="right" class="q-pa-md">
       <q-btn
@@ -70,5 +70,10 @@ async function deleteItem() {
 .item-visualization {
   max-width: 250px !important;
   color: #3d45b9 !important;
+}
+
+.wrap-text {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 </style>

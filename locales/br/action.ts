@@ -71,6 +71,8 @@ export default {
   createFolderSuccess: "Pasta criada com sucesso",
   fillAll: "Preencha as informações sobre o arquivo",
   repeatFile: "Arquivo repetido escolha outro nome",
+  fileNameConflict:
+    "Já existe um arquivo diferente com esse nome neste local, escolha outro nome",
   deleteSuccess: "Exclusão concluída com sucesso",
   errorCreatingFolder: "Error ao tentar da Pasta",
   errorCreatingFile: "Error ao tentar da Arquivo",
