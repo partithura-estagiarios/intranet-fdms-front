@@ -35,6 +35,7 @@
 <script setup lang="ts">
 import { tabItems } from "./lib";
 import { router } from "../../modules/router";
+import { layoutsColors } from "~/composables/layout";
 
 const tab = ref("home");
 
