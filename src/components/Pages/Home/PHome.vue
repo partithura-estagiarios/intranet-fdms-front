@@ -1,10 +1,6 @@
 <template>
   <div>
-    <q-img
-      :height="cironHeightImg"
-      fetchpriority="high"
-      :src="elyteBackground"
-    />
+    <q-img :height="imageHeight" fetchpriority="high" :src="backgroundImage" />
     <Separator :texto="$t('text.systems')" />
     <Item sistema="gestao" class="item-gestao" />
   </div>
@@ -13,8 +9,8 @@
 <script setup lang="ts">
 const layout = computed(() => getLayout());
 
-const cironHeightImg = computed(() => (layout.value == "CIRON " ? "28em" : ""));
-const elyteBackground = computed(() =>
+const imageHeight = computed(() => (layout.value == "CIRON " ? "28em" : ""));
+const backgroundImage = computed(() =>
   layout.value === "ELYTE" ? "/elyte-bg.avif" : "/WELCOME_INTRANET.avif",
 );
 </script>

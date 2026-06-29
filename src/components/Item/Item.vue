@@ -3,7 +3,7 @@
     class="mt-5 row"
     :class="$q.screen.lt.lg ? 'justify-between' : 'justify-center'"
   >
-    <div v-for="item in showElyteSystems" :key="item.system_id">
+    <div v-for="item in systems" :key="item.system_id">
       <q-item
         :clickable="!systemStorage.getBadgeExclusion"
         @click="systemStorage.goToRoute(item.link)"
@@ -86,12 +86,13 @@ const accentClass = computed(() =>
 const highlightClass = computed(() =>
   layout.value === "CIRON" ? "text-orange-14" : "text-green",
 );
-const showElyteSystems = computed(() => {
+const systems = computed(() => {
   if (layout.value === "ELYTE") {
     return systemStorage.getSistemas.filter(
       (x) => x.label == "Partithura" || x.label == "Ramais",
     );
   }
+  return systemStorage.getSistemas;
 });
 
 onMounted(async () => {

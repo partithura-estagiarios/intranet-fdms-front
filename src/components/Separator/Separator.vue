@@ -1,9 +1,6 @@
 <template>
   <q-separator :class="separatorClass" size="1vh" />
-  <img
-    :src="separatorImage"
-    :class="(layout === 'CIRON' || layout === 'ELYTE') && 'separator-class'"
-  />
+  <img :src="separatorImage" :class="layoutClass && 'separator-class'" />
   <h4 class="text-bold text-white position-text">
     {{ texto }}
     <span v-if="userStorage.getToken" class="no-border no-padding">
@@ -39,6 +36,10 @@ const separatorClass = computed(() => {
   if (layout.value === "CIRON") return "color-separator-ciron";
   if (layout.value === "ELYTE") return "color-separator-elyte";
   return "color-separator";
+});
+
+const layoutClass = computed(() => {
+  return layout.value === "CIRON" || layout.value === "ELYTE";
 });
 </script>
 
