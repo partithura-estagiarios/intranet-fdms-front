@@ -79,6 +79,8 @@ export default {
   createFolderSuccess: "Folder created successfully",
   fillAll: "Fill in the file information",
   repeatFile: "Duplicate file, please choose another name",
+  fileNameConflict:
+    "A different file with this name already exists in this location, please choose another name",
   deleteSuccess: "Deletion completed successfully",
   errorCreatingFolder: "Error creating folder",
   errorCreatingFile: "Error creating file",

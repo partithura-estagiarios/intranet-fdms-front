@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 src/components.d.ts
 .env
+skills-lock.json
 
 node_modules
 dist
