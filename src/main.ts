@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import { Quasar, Notify } from "quasar";
 import { i18n, pinia, router, villus } from "./modules";
 import { getLayout } from "./helpers";
+import { faviconIcons } from "./composables/layout";
 import App from "./App.vue";
 
 import "@quasar/extras/material-icons/material-icons.css";
@@ -25,8 +26,10 @@ function setFavicon(href: string) {
   link.href = href;
 }
 
-if (getLayout() === "CIRON") {
-  setFavicon("/ico/ICO_CIRON.png");
+const layoutFavicon = faviconIcons[getLayout()];
+
+if (layoutFavicon) {
+  setFavicon(layoutFavicon);
 }
 
 createApp(App)

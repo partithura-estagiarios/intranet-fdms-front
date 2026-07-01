@@ -1,9 +1,9 @@
 <template>
   <q-card-section
-    class="row items-center justify-between text-white"
+    class="justify-between items-center text-white row"
     :class="backgroundClass"
   >
-    <div class="text-h5 font-custom q-mr-lg">{{ $t(props.option) }}</div>
+    <div class="q-mr-lg font-custom text-h5">{{ $t(props.option) }}</div>
     <q-icon
       name="close"
       class="cursor-pointer"
@@ -24,15 +24,10 @@ const props = defineProps({
 
 const layout = computed(() => getLayout());
 
-const backgroundClass = computed(() =>
-  layout.value === "CIRON" ? "bg-black" : "custom-color",
-);
+const backgroundClass = computed(() => layoutsColors[layout.value]);
 </script>
 <style scoped>
 .font-custom {
   font-family: Fira Sans;
-}
-.custom-color {
-  background-color: rgb(31, 73, 125);
 }
 </style>

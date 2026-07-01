@@ -114,4 +114,5 @@ export const predefinedIcons: Array<{
   },
   { name: "img:/LOGO_CIRON.png", label: "Ciron Logo", type: "svg" },
   { name: "img:/ico/ICO_FUNDIMISA.avif", label: "Fundimisa Logo", type: "svg" },
+  { name: "img:/ico/favicon-elyte.ico", label: "Elyte Favicon", type: "svg" },
 ];

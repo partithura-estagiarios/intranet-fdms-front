@@ -1,6 +1,6 @@
 <template>
   <q-separator :class="separatorClass" size="1vh" />
-  <img :src="separatorImage" :class="layout === 'CIRON' && 'separator-class'" />
+  <img :src="separatorImage" :class="layoutClass && 'separator-class'" />
   <h4 class="text-bold text-white position-text">
     {{ texto }}
     <span v-if="userStorage.getToken" class="no-border no-padding">
@@ -26,13 +26,21 @@ const props = defineProps({
 });
 const layout = computed(() => getLayout());
 
-const separatorImage = computed(() =>
-  layout.value === "CIRON" ? "/SEPARATOR_CIRON.png" : "/SEPARATOR.png",
-);
+const separatorImage = computed(() => {
+  if (layout.value === "CIRON") return "/SEPARATOR_CIRON.png";
+  if (layout.value === "ELYTE") return "/SEPARATOR-ELYTE.avif";
+  return "/SEPARATOR.png";
+});
 
-const separatorClass = computed(() =>
-  layout.value === "CIRON" ? "color-separator-ciron" : "color-separator",
-);
+const separatorClass = computed(() => {
+  if (layout.value === "CIRON") return "color-separator-ciron";
+  if (layout.value === "ELYTE") return "color-separator-elyte";
+  return "color-separator";
+});
+
+const layoutClass = computed(() => {
+  return layout.value === "CIRON" || layout.value === "ELYTE";
+});
 </script>
 
 <style scoped>
@@ -42,6 +50,10 @@ const separatorClass = computed(() =>
 
 .color-separator-ciron {
   background-color: #ff5700;
+}
+
+.color-separator-elyte {
+  background-color: hsl(352.86deg 100% 50.59%);
 }
 
 .separator-class {

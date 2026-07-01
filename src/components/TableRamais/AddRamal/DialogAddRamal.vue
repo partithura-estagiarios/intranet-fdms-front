@@ -4,7 +4,7 @@
       <q-form @submit="optionRamal">
         <q-card-section
           :class="[
-            isCiron ? 'bg-black' : 'custom-color',
+            layoutsColors[layout],
             'font-custom',
             'row',
             'items-center',

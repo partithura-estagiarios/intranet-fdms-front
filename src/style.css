@@ -81,3 +81,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.elyte-color {
+  background-color: hsl(355.86deg 81.53% 48.82%);
+}
+.custom-color {
+  background-color: rgb(31, 73, 125);
+}

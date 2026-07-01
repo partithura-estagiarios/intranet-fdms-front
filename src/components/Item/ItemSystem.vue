@@ -3,8 +3,8 @@
     :name="item.icon"
     clickable
     @click="modalCreateSystem"
-    class="position-icon cursor-pointer"
-    v-if="userStorage.getToken"
+    class="cursor-pointer position-icon"
+    v-if="layout != 'ELYTE'"
   >
     <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
       {{ $t("action.systemModuleOptions") }}
@@ -16,6 +16,8 @@
 <script setup lang="ts">
 import { useUsers } from "../../stores/user";
 import { useSystems } from "../../stores/system";
+
+const layout = computed(() => getLayout());
 
 const userStorage = useUsers();
 const systemStorage = useSystems();
