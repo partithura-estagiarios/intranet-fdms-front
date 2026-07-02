@@ -2,13 +2,7 @@
   <q-card-section
     class="bg-grey-2 col-12 col-sm column q-pa-none archives-section"
   >
-    <FileActionBtns
-      :hasSelectedItem="!!selectedItem"
-      @open="openPdf()"
-      @edit="openModal('edit')"
-      @delete="openModal('delete')"
-      @add="openModal('add')"
-    />
+    <FileActionBtns @add="openModal('add')" />
 
     <div
       class="flex items-center bg-grey-2 border-b text-body2 text-grey-8 q-pa-sm"
@@ -35,9 +29,9 @@
         >
           <PdfCard
             :pdf="pdf"
-            :isSelected="selectedItem === pdf"
-            @select="selectItem"
             @open="openPdf"
+            @edit="openModal('edit', $event)"
+            @delete="openModal('delete', $event)"
           />
         </div>
       </div>
@@ -102,12 +96,14 @@ const modalTitle = computed(() => {
   return "";
 });
 
-function openModal(action: ModalAction) {
+function openModal(action: ModalAction, item: FileSystemItem | null = null) {
+  selectedItem.value = item;
   activeModal.value = action;
 }
 
 function closeModal() {
   activeModal.value = null;
+  selectedItem.value = null;
 }
 
 const pdfFiles = computed(() => {
@@ -119,26 +115,11 @@ const pdfFiles = computed(() => {
   );
 });
 
-function selectItem(pdf: FileSystemItem) {
-  if (selectedItem.value === pdf) {
-    selectedItem.value = null;
-    return;
-  }
-  selectedItem.value = pdf;
+function openPdf(pdf: FileSystemItem) {
+  fileStorage.displayPdf(pdf.path);
 }
 
-function openPdf() {
-  if (selectedItem.value) {
-    fileStorage.displayPdf(selectedItem.value.path);
-  }
-}
 const path = computed(() => fileStorage.currentPath);
-
-watch(path, (newPatch) => {
-  if (newPatch) {
-    selectedItem.value = null;
-  }
-});
 </script>
 
 <style scoped>

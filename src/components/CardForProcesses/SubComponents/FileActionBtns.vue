@@ -1,37 +1,5 @@
 <template>
-  <div class="q-px-sm col-auto border-b flex justify-between">
-    <div
-      v-if="useUser.getToken"
-      class="flex row q-gutter-x-sm q-my-sm text-grey-8"
-    >
-      <q-btn
-        v-if="hasSelectedItem"
-        no-wrap
-        class="rounded-borders text-bold text-lowercase"
-        icon="mdi-open-in-new"
-        @click="$emit('open')"
-      >
-        <div class="q-ml-sm">{{ $t("action.open") }}</div>
-      </q-btn>
-      <q-btn
-        v-if="hasSelectedItem"
-        no-wrap
-        class="rounded-borders text-bold text-lowercase"
-        icon="mdi-pencil"
-        @click="$emit('edit')"
-      >
-        <div class="q-ml-sm">{{ $t("action.edit") }}</div>
-      </q-btn>
-      <q-btn
-        v-if="hasSelectedItem"
-        no-wrap
-        class="rounded-borders text-bold text-lowercase"
-        icon="mdi-delete"
-        @click="$emit('delete')"
-      >
-        <div class="q-ml-sm">{{ $t("action.delete") }}</div>
-      </q-btn>
-    </div>
+  <div class="q-px-sm col-auto border-b flex justify-end">
     <q-btn
       v-if="useUser.getToken"
       no-wrap
@@ -49,13 +17,7 @@
 </template>
 <script setup>
 const useUser = useUsers();
-defineEmits(["open", "edit", "delete", "add"]);
-defineProps({
-  hasSelectedItem: {
-    type: Boolean,
-    default: false,
-  },
-});
+defineEmits(["add"]);
 </script>
 <style scoped>
 .border-b {
