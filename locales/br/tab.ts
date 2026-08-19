@@ -11,4 +11,5 @@ export default {
   institutional: "Institucional",
   addCertifications: "Adicionar Certificação",
   folders: "Pastas",
+  map: "Mapa",
 };

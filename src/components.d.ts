@@ -90,6 +90,8 @@ declare module 'vue' {
     ListIcons: typeof import('./components/Item/ModalsForEditsSystems/ListIcons.vue')['default']
     LoadingEvent: typeof import('./components/Loading/LoadingEvent.vue')['default']
     Login: typeof import('./components/Login/Login.vue')['default']
+    MapaPatioGeral: typeof import('./components/MapComponents/MapaPatioGeral.vue')['default']
+    MapView: typeof import('./components/Pages/PageMaps/MapView.vue')['default']
     MenuOptsCardSig: typeof import('./components/CardOfInstitutional/OptsCardSig/MenuOptsCardSig.vue')['default']
     MenuOptsCert: typeof import('./components/CarouselForCertifications/ButtonForCertification/MenuOptsCert.vue')['default']
     MenuOptsRoom: typeof import('./components/Schedule/ScheduleRoom/MenuEditMeet/MenuOptsRoom.vue')['default']
