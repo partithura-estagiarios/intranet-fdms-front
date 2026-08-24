@@ -13,6 +13,11 @@ declare global {
   const $shallowRef: typeof import('vue/macros')['$shallowRef']
   const $toRef: typeof import('vue/macros')['$toRef']
   const EffectScope: typeof import('vue')['EffectScope']
+  const METRO_EM_PIXELS: typeof import('./composables/useModuleEditor')['METRO_EM_PIXELS']
+  const activeTool: typeof import('./composables/useModuleEditor')['activeTool']
+  const andarAtivoEdicao: typeof import('./composables/useModuleEditor')['andarAtivoEdicao']
+  const aplicarSubtracao: typeof import('./composables/useModuleEditor')['aplicarSubtracao']
+  const aplicarUniao: typeof import('./composables/useModuleEditor')['aplicarUniao']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const backgroundColor: typeof import('./composables/theme')['backgroundColor']
@@ -34,6 +39,7 @@ declare global {
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createTemplatePromise: typeof import('@vueuse/core')['createTemplatePromise']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
+  const currentStep: typeof import('./composables/useModuleEditor')['currentStep']
   const customRef: typeof import('vue')['customRef']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
@@ -63,6 +69,7 @@ declare global {
   const layoutsColors: typeof import('./composables/layout')['layoutsColors']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const markRaw: typeof import('vue')['markRaw']
+  const moduloEmEdicao: typeof import('./composables/useModuleEditor')['moduloEmEdicao']
   const monthsAux: typeof import('./stores/months')['monthsAux']
   const negativeNotify: typeof import('./helpers/notify')['negativeNotify']
   const nextTick: typeof import('vue')['nextTick']
@@ -116,6 +123,7 @@ declare global {
   const shallowRef: typeof import('vue')['shallowRef']
   const syncRef: typeof import('@vueuse/core')['syncRef']
   const syncRefs: typeof import('@vueuse/core')['syncRefs']
+  const tamanhoSnapMetros: typeof import('./composables/useModuleEditor')['tamanhoSnapMetros']
   const templateRef: typeof import('@vueuse/core')['templateRef']
   const textColor: typeof import('./composables/theme')['textColor']
   const themeIcon: typeof import('./composables/theme')['themeIcon']
@@ -223,6 +231,7 @@ declare global {
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useMagicKeys: typeof import('@vueuse/core')['useMagicKeys']
   const useManualRefHistory: typeof import('@vueuse/core')['useManualRefHistory']
+  const useMaps: typeof import('./stores/maps')['useMaps']
   const useMediaControls: typeof import('@vueuse/core')['useMediaControls']
   const useMediaQuery: typeof import('@vueuse/core')['useMediaQuery']
   const useMemoize: typeof import('@vueuse/core')['useMemoize']
@@ -350,6 +359,11 @@ declare module 'vue' {
     readonly $shallowRef: UnwrapRef<typeof import('vue/macros')['$shallowRef']>
     readonly $toRef: UnwrapRef<typeof import('vue/macros')['$toRef']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly METRO_EM_PIXELS: UnwrapRef<typeof import('./composables/useModuleEditor')['METRO_EM_PIXELS']>
+    readonly activeTool: UnwrapRef<typeof import('./composables/useModuleEditor')['activeTool']>
+    readonly andarAtivoEdicao: UnwrapRef<typeof import('./composables/useModuleEditor')['andarAtivoEdicao']>
+    readonly aplicarSubtracao: UnwrapRef<typeof import('./composables/useModuleEditor')['aplicarSubtracao']>
+    readonly aplicarUniao: UnwrapRef<typeof import('./composables/useModuleEditor')['aplicarUniao']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly backgroundColor: UnwrapRef<typeof import('./composables/theme')['backgroundColor']>
@@ -371,6 +385,7 @@ declare module 'vue' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
+    readonly currentStep: UnwrapRef<typeof import('./composables/useModuleEditor')['currentStep']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
@@ -399,6 +414,7 @@ declare module 'vue' {
     readonly layoutsColors: UnwrapRef<typeof import('./composables/layout')['layoutsColors']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly moduloEmEdicao: UnwrapRef<typeof import('./composables/useModuleEditor')['moduloEmEdicao']>
     readonly monthsAux: UnwrapRef<typeof import('./stores/months')['monthsAux']>
     readonly negativeNotify: UnwrapRef<typeof import('./helpers/notify')['negativeNotify']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
@@ -450,6 +466,7 @@ declare module 'vue' {
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
+    readonly tamanhoSnapMetros: UnwrapRef<typeof import('./composables/useModuleEditor')['tamanhoSnapMetros']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly textColor: UnwrapRef<typeof import('./composables/theme')['textColor']>
     readonly themeIcon: UnwrapRef<typeof import('./composables/theme')['themeIcon']>
@@ -557,6 +574,7 @@ declare module 'vue' {
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
+    readonly useMaps: UnwrapRef<typeof import('./stores/maps')['useMaps']>
     readonly useMediaControls: UnwrapRef<typeof import('@vueuse/core')['useMediaControls']>
     readonly useMediaQuery: UnwrapRef<typeof import('@vueuse/core')['useMediaQuery']>
     readonly useMemoize: UnwrapRef<typeof import('@vueuse/core')['useMemoize']>
@@ -677,6 +695,11 @@ declare module '@vue/runtime-core' {
     readonly $shallowRef: UnwrapRef<typeof import('vue/macros')['$shallowRef']>
     readonly $toRef: UnwrapRef<typeof import('vue/macros')['$toRef']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly METRO_EM_PIXELS: UnwrapRef<typeof import('./composables/useModuleEditor')['METRO_EM_PIXELS']>
+    readonly activeTool: UnwrapRef<typeof import('./composables/useModuleEditor')['activeTool']>
+    readonly andarAtivoEdicao: UnwrapRef<typeof import('./composables/useModuleEditor')['andarAtivoEdicao']>
+    readonly aplicarSubtracao: UnwrapRef<typeof import('./composables/useModuleEditor')['aplicarSubtracao']>
+    readonly aplicarUniao: UnwrapRef<typeof import('./composables/useModuleEditor')['aplicarUniao']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly backgroundColor: UnwrapRef<typeof import('./composables/theme')['backgroundColor']>
@@ -698,6 +721,7 @@ declare module '@vue/runtime-core' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
+    readonly currentStep: UnwrapRef<typeof import('./composables/useModuleEditor')['currentStep']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
@@ -726,6 +750,7 @@ declare module '@vue/runtime-core' {
     readonly layoutsColors: UnwrapRef<typeof import('./composables/layout')['layoutsColors']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly markRaw: UnwrapRef<typeof import('vue')['markRaw']>
+    readonly moduloEmEdicao: UnwrapRef<typeof import('./composables/useModuleEditor')['moduloEmEdicao']>
     readonly monthsAux: UnwrapRef<typeof import('./stores/months')['monthsAux']>
     readonly negativeNotify: UnwrapRef<typeof import('./helpers/notify')['negativeNotify']>
     readonly nextTick: UnwrapRef<typeof import('vue')['nextTick']>
@@ -777,6 +802,7 @@ declare module '@vue/runtime-core' {
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
+    readonly tamanhoSnapMetros: UnwrapRef<typeof import('./composables/useModuleEditor')['tamanhoSnapMetros']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly textColor: UnwrapRef<typeof import('./composables/theme')['textColor']>
     readonly themeIcon: UnwrapRef<typeof import('./composables/theme')['themeIcon']>
@@ -884,6 +910,7 @@ declare module '@vue/runtime-core' {
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
+    readonly useMaps: UnwrapRef<typeof import('./stores/maps')['useMaps']>
     readonly useMediaControls: UnwrapRef<typeof import('@vueuse/core')['useMediaControls']>
     readonly useMediaQuery: UnwrapRef<typeof import('@vueuse/core')['useMediaQuery']>
     readonly useMemoize: UnwrapRef<typeof import('@vueuse/core')['useMemoize']>

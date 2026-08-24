@@ -1,0 +1,11 @@
+<!-- Usar 40px por metro -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44000 44000">
+  <rect x="0" y="0" width="60000" height="60000" fill="#65c252" />
+  <path
+    id="heart"
+    fill="#ccccdd98"
+    d="M16000,13200 l2000,0 l7200,4600 l2800,0 l0,8800 l-4000,2200 l-8000,0 Z" />
+  <rect x="20000" y="28800" width="32000" height="200" fill="#6e6e6e" />
+  <rect x="20000" y="28800" width="200" height="15000" fill="#6e6e6e" />
+  <rect x="20400" y="28800" width="200" height="15000" fill="#6e6e6e" />
+</svg>

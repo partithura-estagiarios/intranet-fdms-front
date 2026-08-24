@@ -25,6 +25,7 @@
     "leaflet": "^1.9.4",
     "lodash.chunk": "^4.2.0",
     "luxon": "^3.4.4",
+    "paper": "^0.12.18",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "quasar": "^2.14.6",

@@ -1,12 +1,16 @@
 <template>
   <Separator :texto="$t('tab.map')" />
-  <div class="map-outline">
-    <MapaPatioGeral />
+  <div class="row map-outline align-center justify-center">
+    <div class="col-3">
+      <MapModulesMenu />
+    </div>
+    <div class="col-9">
+      <MapaPatioGeral />
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
 .map-outline {
-  margin: 32px auto;
-  max-width: 1000px;
+  margin-top: 32px;
 }
 </style>
