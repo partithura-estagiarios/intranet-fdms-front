@@ -28,11 +28,13 @@
     </div>
     <q-scroll-area class="col">
       <q-list bordered separator v-if="modulosNoMapa.length > 0">
-        <q-item v-for="item in modulosNoMapa" :key="item.instanciaId">
+        <q-item v-for="item in modulosNoMapa" :key="item.id">
           <q-item-section>
-            <q-item-label class="text-bold">{{ item.nome }}</q-item-label>
+            <q-item-label class="text-bold">{{ item.name }}</q-item-label>
             <q-item-label caption
-              >Pos: X:{{ item.x }}m, Y:{{ item.y }}m</q-item-label
+              >Pos: X:{{ item.outline[0][1] }}m, Y:{{
+                item.outline[0][0]
+              }}m</q-item-label
             >
           </q-item-section>
 
@@ -44,7 +46,7 @@
                 round
                 color="primary"
                 icon="edit_location"
-                @click="emitirEditarPosicao(item.instanciaId)"
+                @click="emitirEditarPosicao(item.id)"
               />
               <q-btn
                 size="sm"
@@ -52,7 +54,7 @@
                 round
                 color="negative"
                 icon="delete"
-                @click="emitirRemoverDoPatio(item.instanciaId)"
+                @click="emitirRemoverDoPatio(item.id)"
               />
             </div>
           </q-item-section>
@@ -74,23 +76,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import MapModulesManager from "./MapModulesManager.vue";
+import { useMaps } from "~/stores/maps";
 
-interface ModuloInstanciado {
-  instanciaId: string;
-  nome: string;
-  x: number;
-  y: number;
-  rot: number;
-}
+const mapStore = useMaps();
 
 const showCrudModal = ref(false);
 const moduloSelecionadoParaInsercao = ref<string | null>(null);
 
 // Mocks de controle do pátio geral
-const modulosNoMapa = ref<ModuloInstanciado[]>([
-  { instanciaId: "1", nome: "Fábrica 1 - Fundição", x: 45, y: 120, rot: 0 },
-  { instanciaId: "2", nome: "Prédio Administrativo", x: 110, y: 35, rot: 0 },
-]);
+const modulosNoMapa = computed(() => {
+  return mapStore.buildings;
+});
 
 const emit = defineEmits([
   "adicionar-ao-patio",
@@ -98,8 +94,8 @@ const emit = defineEmits([
   "remover-do-patio",
 ]);
 
-const definirModuloParaInsercao = (moduloId: string) => {
-  moduloSelecionadoParaInsercao.value = moduloId;
+const definirModuloParaInsercao = (id: string) => {
+  moduloSelecionadoParaInsercao.value = id;
 };
 
 const emitirAdicionarAoPatio = () => {
@@ -112,6 +108,6 @@ const emitirEditarPosicao = (id: string) => {
 
 const emitirRemoverDoPatio = (id: string) => {
   emit("remover-do-patio", id);
-  modulosNoMapa.value = modulosNoMapa.value.filter((m) => m.instanciaId !== id);
+  mapStore.toggleStructure(false, id);
 };
 </script>

@@ -48,6 +48,9 @@
 import { onMounted, ref, nextTick, onBeforeUnmount } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useMaps } from "~/stores/maps";
+
+const mapStore = useMaps();
 
 interface ConfigMapa {
   urlImagemAerea: string;
@@ -62,157 +65,18 @@ const CONFIG_MAPA: ConfigMapa = {
   alturaPixel: 44000,
 };
 
-const endpoint_data = [
-  //Simulação de endpoint
-  {
-    name: "Fábrica 1",
-    id: "build0",
-    initialFloor: 0,
-    outline: [
-      [15300, 20000],
-      [16300, 20000],
-      [16300, 22000],
-      [15300, 22000],
-    ],
-    config: {
-      color: "#1d4ed8",
-      weight: 2,
-      dashArray: "5, 4",
-      fillColor: "#3b82f6",
-      fillOpacity: 0.5,
-      interactive: true,
-    },
-    floors: [
-      {
-        value: 0,
-        label: "Piso 0 - Térreo",
-        width: 44000,
-        height: 44000,
-        rooms: [
-          {
-            name: "Cozinha",
-            description: "Cozinha Interna da Fábrica 1",
-            outline: [
-              [5500, 5500],
-              [5500, 11000],
-              [11000, 11000],
-              [11000, 5500],
-            ],
-            config: {
-              weight: 2,
-              className: "regular-room",
-            },
-          },
-        ],
-      },
-      {
-        value: 1,
-        label: "Piso 1 - Usinagem",
-        width: 44000,
-        height: 44000,
-        rooms: [
-          {
-            name: "Banheiro",
-            description: "Banheiro da Fábrica 1",
-            outline: [
-              [6500, 5500],
-              [6500, 9000],
-              [8000, 9000],
-              [8000, 5500],
-            ],
-            config: {
-              weight: 2,
-              className: "regular-room",
-            },
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Fábrica 2",
-    id: "build1",
-    initialFloor: 0,
-    outline: [
-      [16300, 20000],
-      [20300, 20000],
-      [20300, 22000],
-      [16300, 22000],
-    ],
-    config: {
-      color: "#9d4ed8",
-      weight: 2,
-      dashArray: "5, 4",
-      fillColor: "#cb82f6",
-      fillOpacity: 0.5,
-      interactive: true,
-    },
-    floors: [
-      {
-        value: 0,
-        label: "Piso 0 - Térreo",
-        width: 44000,
-        height: 44000,
-        rooms: [
-          {
-            name: "Direção",
-            description: "Sala da direção",
-            outline: [
-              [5500, 5500],
-              [5500, 11000],
-              [11000, 11000],
-              [11000, 5500],
-            ],
-            config: {
-              weight: 2,
-              className: "meeting-room",
-            },
-          },
-          {
-            name: "Banehiro",
-            description: "Banheiro geral",
-            outline: [
-              [5500, 11000],
-              [5500, 12500],
-              [7000, 12500],
-              [7000, 11000],
-            ],
-            config: {
-              weight: 2,
-              className: "regular-room",
-            },
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Pintura",
-    id: "build2",
-    initialFloor: 0,
-    outline: [
-      [15300, 22000],
-      [20300, 22000],
-      [20300, 25000],
-      [15300, 25000],
-    ],
-    config: {
-      color: "#00FF66",
-      weight: 2,
-      dashArray: "5, 4",
-      fillColor: "#00FF66",
-      fillOpacity: 0.5,
-      interactive: true,
-    },
-    floors: [],
-  },
-];
+const endpoint_data = computed(() => {
+  return mapStore.buildings.filter((building) => {
+    return building.isActive;
+  });
+});
 
 // --- ESTADOS REATIVOS DO VUE ---
 const mapState = ref<"MACRO" | "MICRO">("MACRO");
 const selectedBuilding = ref<any>();
 const activeFloor = ref<number>(0);
 const floorOptions = ref([]);
+
 const showPreciseControl = ref(false);
 
 // --- VARIÁVEIS DO LEAFLET (Livres de Proxies Reativos do Vue) ---
@@ -310,7 +174,7 @@ const transitionToMacro = (): void => {
   ).addTo(mapInstance);
   mapInstance.fitBounds(limitesImagem);
 
-  endpoint_data.forEach((building) => {
+  endpoint_data.value.forEach((building) => {
     // 🔥 SUAS COORDENADAS REAIS DA FÁBRICA (Sem lacunas vazias para não quebrar o motor)
     const buildingVertices: L.LatLngTuple[] = building.outline;
 
@@ -395,7 +259,8 @@ const changeFloor = (floorNumber: number): void => {
   transitionToMicro(selectedBuilding.value, floorNumber);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await mapStore.loadModules();
   void nextTick(() => {
     inicializarMapa();
   });
