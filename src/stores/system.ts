@@ -45,7 +45,7 @@ export const useSystems = defineStore(id, {
   actions: {
     goToRoute(rout: string) {
       const systemStorage = useSystems();
-      if (rout.includes("https")) {
+      if (/^https?:\/\//.test(rout)) {
         return window.open(`${rout}`);
       }
       if (rout.includes("contatoCeo")) {
